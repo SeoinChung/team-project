@@ -5,7 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #EFEFEF; /* 배경색 추가 */
+  background-color: #ffffff; /* 배경색 추가 */
 }
 
 header {
@@ -14,7 +14,7 @@ header {
 }
 
 header img {
-  max-width: 15%; /* 로고 크기를 줄이기 */
+  max-width: 100%; /* 로고 크기를 줄이기 */
   height: auto; /* 비율 유지 */
   display: block; /* 블록으로 설정하여 정렬을 위해 필요 */
   margin: 0 auto; /* 수평 중앙 정렬 */
