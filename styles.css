@@ -29,7 +29,6 @@ main {
     color: black; /* 글자 색상을 검정색으로 변경 */
 }
 
-/* div 안의 ul에 대한 스타일 */
 div ul {
     list-style: none; /* 리스트 아이템 스타일 없애기 */
     padding: 0; /* 패딩 없애기 */
@@ -43,4 +42,31 @@ div {
 h1, li {
     margin: 0; /* 기본 마진 제거 */
     padding: 10px 0; /* 위아래 여백 추가 */
+}
+
+/* 추가: 달력을 위한 스타일 */
+.custom-calendar {
+    margin: 20px 0; /* 달력과 다른 요소 간의 여백 추가 */
+}
+
+.calendar-days {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap; /* 여러 줄로 배치 가능하게 */
+}
+
+.calendar-day {
+    width: 30px; /* 각 날짜의 너비 설정 */
+    height: 30px; /* 각 날짜의 높이 설정 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ccc; /* 날짜의 경계선 */
+    margin: 2px; /* 날짜 간의 여백 */
+    cursor: pointer; /* 포인터 커서 */
+}
+
+.selected {
+    background-color: #007bff; /* 선택된 날짜의 배경색 */
+    color: white; /* 선택된 날짜의 글자색 */
 }

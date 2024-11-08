@@ -44,14 +44,15 @@ function FitnessPlan() {
     const renderPlansForSelectedDate = () => {
         const formattedDate = selectedDate.toLocaleDateString();
         return plans[formattedDate] ? (
-            <ul style={{ padding: "0", listStyleType: "none" }}>
+            <ul style={{ padding: "0", listStyleType: "none", display: "flex", flexDirection: "column", alignItems: "center" }}>
                 {plans[formattedDate].map((plan, index) => (
                     <li key={index} style={{
                         textDecoration: plan.completed ? "line-through" : "none",
                         color: plan.completed ? "#888" : "#000",
                         display: "flex",
                         alignItems: "center",
-                        marginBottom: "8px"
+                        marginBottom: "8px",
+                        justifyContent: "center" // 가운데 정렬
                     }}>
                         <input 
                             type="checkbox" 
