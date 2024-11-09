@@ -11,7 +11,8 @@ const equipment = [
     "백 익스텐션",
     "스텝퍼",
     "치닝디핑",
-    "바디 인버전"
+    "바디 인버전",
+    "런닝머신"
 ];
 
 function FitnessEquipList() {
