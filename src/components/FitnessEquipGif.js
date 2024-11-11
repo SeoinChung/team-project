@@ -3,12 +3,12 @@ import React, { useEffect } from 'react';
 function FitnessEquipGif({ equipmentName }) {
   const videoSrc = {
     "백 익스텐션": "/images/back-extension.mp4",
-    "케이블 암 풀 다운": "/images/cable-arm-pulldown.mp4",
+    "케이블 스트레이트 암 풀 다운": "/images/cable-arm-pulldown.mp4",
     "체스트프레스": "/images/chest-press.mp4",
     "치닝디핑": ["/images/chinning-dipping(1).mp4", "/images/chinning-dipping(2).mp4"],
     "랫풀다운": "/images/lat-pull-down.mp4",
-    "레그프레스": "/images/leg-press.mp4",
-    "리버스 백 익스텐션": "/images/reverse-back-extension.mp4",
+    "머신 레그프레스": "/images/leg-press.mp4",
+    "리버스 하이퍼 익스텐션": "/images/reverse-hyper-extension.mp4",
     "스텝퍼": "/images/stepper.mp4",
     "런닝머신": "/images/treadmill.mp4"
   };
