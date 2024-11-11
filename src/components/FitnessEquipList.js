@@ -3,11 +3,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const equipment = [
-    "레그프레스",
-    "케이블 암 풀 다운",
+    "머신 레그프레스",
+    "케이블 스트레이트 암 풀 다운",
     "랫풀다운",
     "체스트프레스",
-    "리버스 백익스텐션",
+    "리버스 하이퍼 익스텐션",
     "백 익스텐션",
     "스텝퍼",
     "치닝디핑",
