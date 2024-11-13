@@ -5,14 +5,15 @@ import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import FitnessEquipList from './pages/FitnessEquipList';
 import FitnessEquipInfo from './pages/FitnessEquipInfo';
 import FitnessPlan from './pages/FitnessPlan';
-import BMICalculator from './pages/BMICalculator'; // BMICalculator 컴포넌트 import
-import Header from './components/Header'; // Header 컴포넌트 import
+import BMICalculator from './pages/BMICalculator';
+import Header from './components/Header';
+import FitnessEquipDetail from './pages/FitnessEquipDetail';
 
 function App() {
     return (
         <Router>
-            <div style={{ textAlign: 'center' }}> {/* 중앙 정렬을 위한 스타일 추가 */}
-                <Header /> {/* Header 컴포넌트를 추가하여 로고 표시 */}
+            <div style={{ textAlign: 'center' }}>
+                <Header />
                 <nav>
                     <Link to="/browse">운동기구 살펴보기</Link> | 
                     <Link to="/info">운동기구 상세 정보</Link> | 
@@ -23,7 +24,8 @@ function App() {
                     <Route path="/browse" element={<FitnessEquipList />} />
                     <Route path="/info" element={<FitnessEquipInfo />} />
                     <Route path="/plan" element={<FitnessPlan />} />
-                    <Route path="/bmi" element={<BMICalculator />} /> {/* BMI 계산기 페이지 추가 */}
+                    <Route path="/bmi" element={<BMICalculator />} />
+                    <Route path="/equipment/:equipmentName" element={<FitnessEquipDetail />} /> {/* 수정된 페이지로 라우트 */}
                 </Routes>
             </div>
         </Router>

@@ -1,4 +1,4 @@
-/* src/pages/FitnessEquipInfo.css */
+/* src/pages/FitnessEquipDetail.css */
 
 .container {
     display: flex;
@@ -17,7 +17,6 @@
 
 .detail-box {
     border: 1px solid #84c1de;
-    border-radius: 5px;
     padding: 10px;
     margin-bottom: 10px;
     width: 600px;
@@ -63,4 +62,42 @@
 .nav-button.active {
     border: 2px solid #007bff;
     background-color: #e9ecef;
+}
+
+/* 영상 썸네일 */
+.video-thumbnails {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.video-thumbnail {
+    width: 128px;
+    height: auto;
+    border-radius: 8px;
+    margin: 5px;
+}
+
+.video-thumbnail:hover {
+    transform: scale(1.1);
+}
+
+/* 버튼 그룹 */
+.button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.nav-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.nav-button:hover {
+    background-color: #f0f0f0;
 }
