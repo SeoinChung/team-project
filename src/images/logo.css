@@ -1,0 +1,19 @@
+/* 로고 스타일 */
+.logo {
+    width: 100%;
+    max-width: 300px; 
+    height: auto; 
+    margin: 0 auto; 
+}
+
+@media (max-width: 768px) {
+    .logo {
+        max-width: 200px; 
+    }
+}
+
+@media (max-width: 480px) {
+    .logo {
+        max-width: 150px;
+    }
+}

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import './FitnessEquipInfo.css';
 import FitnessEquipGif from '../components/FitnessEquipGif';
-import { color } from 'chart.js/helpers';
 
 export const equipmentDetails = [
     { name: "랫 풀 다운",
@@ -196,7 +195,7 @@ export const equipmentDetails = [
                 videoLink: "https://youtu.be/1LlO_HosaLw?si=TzjvW8UUjxcxH1Xa"
             }
         ],
-        images: "/images/kooni.jpeg"
+        images: "/images/chinning-dipping2.jpeg"
     },
     { name: "시티드 레그 프레스",
         description: "시티드 레그 프레스는 하체를 안정적으로 단련하는 데 효과적이며, 특히 대퇴사두근과 하복부 근육을 강화하는 데 효과적입니다. 무릎과 고관절에 직접적인 부담을 줄일 수 있는 자세의 하체 운동입니다.",
@@ -292,7 +291,7 @@ function FitnessEquipInfo() {
             <h2 className="title">운동기구 상세 정보</h2>
             <div className="detail-box"
                 style={{
-                    border: '1px solid #84c1de',  // 모든 운동기구에 동일한 테두리 스타일 적용
+                    border: '1px solid #84c1de',  
                     borderRadius: '10px',
                     padding: '20px',
                     width: '600px',
@@ -344,6 +343,7 @@ function FitnessEquipInfo() {
                             className="equipment-image-button"
                             style={{ width: '100px', height: '100px' }} 
                         />
+                        <p>{equip.name}</p>
                     </button>
                 ))}
             </div>
