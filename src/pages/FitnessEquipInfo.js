@@ -195,7 +195,7 @@ export const equipmentDetails = [
                 videoLink: "https://youtu.be/1LlO_HosaLw?si=TzjvW8UUjxcxH1Xa"
             }
         ],
-        images: "/images/chinning-dipping2.jpeg"
+        images: "/images/chinning_dipping2.jpg"
     },
     { name: "시티드 레그 프레스",
         description: "시티드 레그 프레스는 하체를 안정적으로 단련하는 데 효과적이며, 특히 대퇴사두근과 하복부 근육을 강화하는 데 효과적입니다. 무릎과 고관절에 직접적인 부담을 줄일 수 있는 자세의 하체 운동입니다.",
@@ -280,6 +280,118 @@ export const equipmentDetails = [
             }
         ],
         images: "/images/treadmill.jpeg"
+    },
+    { name: "일립티컬 머신",
+        description: "채워주세요.",
+        exerciseInstructions: "채워주세요",
+        warning:"채워주세요",
+        videos: [
+            { 
+                title: "공백", 
+                thumbnail: "", 
+                videoLink: ""
+            },
+            { 
+                title: "공백", 
+                thumbnail: "", 
+                videoLink: ""
+            },
+            { 
+                title: "공백", 
+                thumbnail: "", 
+                videoLink: ""
+            },
+            { 
+                title: "공백", 
+                thumbnail: "", 
+                videoLink: ""
+            }
+        ],
+        images: "/images/elliptical_machine.jpg"
+    },
+    { name: "싸이클",
+        description: "채워주세요.",
+        exerciseInstructions: "채워주세요",
+        warning:"채워주세요",
+        videos: [
+            { 
+                title: "공백", 
+                thumbnail: "", 
+                videoLink: ""
+            },
+            { 
+                title: "공백", 
+                thumbnail: "", 
+                videoLink: ""
+            },
+            { 
+                title: "공백", 
+                thumbnail: "", 
+                videoLink: ""
+            },
+            { 
+                title: "공백", 
+                thumbnail: "", 
+                videoLink: ""
+            }
+        ],
+        images: "/images/cycle.jpg"
+    },
+    { name: "레그 익스텐션",
+        description: "채워주세요.",
+        exerciseInstructions: "채워주세요",
+        warning:"채워주세요",
+        videos: [
+            { 
+                title: "공백", 
+                thumbnail: "", 
+                videoLink: ""
+            },
+            { 
+                title: "공백", 
+                thumbnail: "", 
+                videoLink: ""
+            },
+            { 
+                title: "공백", 
+                thumbnail: "", 
+                videoLink: ""
+            },
+            { 
+                title: "공백", 
+                thumbnail: "", 
+                videoLink: ""
+            }
+        ],
+        images: "/images/leg_extension.jpg"
+    },
+    { name: "이너타이",
+        description: "채워주세요.",
+        exerciseInstructions: "채워주세요",
+        warning:"채워주세요",
+        videos: [
+            { 
+                title: "공백", 
+                thumbnail: "", 
+                videoLink: ""
+            },
+            { 
+                title: "공백", 
+                thumbnail: "", 
+                videoLink: ""
+            },
+            { 
+                title: "공백", 
+                thumbnail: "", 
+                videoLink: ""
+            },
+            { 
+                title: "공백", 
+                thumbnail: "", 
+                videoLink: ""
+            }
+        ],
+        images: "/images/inner_thigh.jpg"
     }
 ];
 
