@@ -395,8 +395,16 @@ export const equipmentDetails = [
     }
 ];
 
+
+
 function FitnessEquipInfo() {
     const [selectedEquipment, setSelectedEquipment] = useState(equipmentDetails[0]);
+
+    const [showVideos, setShowVideos] = useState(false); // 영상 표시 여부를 관리하는 상태
+
+    const handleWatchViewToggle = () => {
+        setShowVideos((prevShowVideos) => !prevShowVideos); // 상태를 반전시킴
+    };
 
     return (
         <div className="container">
@@ -422,24 +430,47 @@ function FitnessEquipInfo() {
                 <p style={{ whiteSpace: 'pre-line' }}>{selectedEquipment.warning}</p>
 
                 <h4>참고 영상:</h4>
-                <div className="video-thumbnails">
-                    {(selectedEquipment.videos || []).map((video, index) => (
-                        <a 
-                            key={index} 
-                            href={video.videoLink} 
-                            target="_blank" 
+                <button
+                onClick={handleWatchViewToggle}
+                className="watch-view-button"
+                style={{
+                    backgroundColor: '',
+                    color: '#fff',
+                    border: 'none',
+                    borderRadius: '8px',
+                    padding: '10px 15px',
+                    cursor: 'pointer',
+                    marginBottom: '10px'
+                }}
+                >
+                {showVideos ? "영상 숨기기" : "영상 보기"}
+                </button>
+
+                {showVideos && ( // showVideos가 true일 때만 영상 목록 표시
+                    <div className="video-thumbnails">
+                        {(selectedEquipment.videos || []).map((video, index) => (
+                            <a
+                            key={index}
+                            href={video.videoLink}
+                            target="_blank"
                             rel="noopener noreferrer"
                             className="video-link"
-                        >
-                            <img 
-                                src={video.thumbnail} 
-                                alt={video.title} 
+                            >
+                            <img
+                                src={video.thumbnail}
+                                alt={video.title}
                                 className="video-thumbnail"
-                                style={{ width: '128px', height: 'auto', margin: '5px', borderRadius: '8px' }}
+                                style={{
+                                    width: '128px',
+                                    height: 'auto',
+                                    margin: '5px',
+                                    borderRadius: '8px'
+                                }}
                             />
                         </a>
                     ))}
-                </div>
+                    </div>
+                )}
             </div>
             <h4>다른 운동기구 선택하기:</h4>
             <div className="button-group">
