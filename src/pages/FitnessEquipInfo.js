@@ -434,6 +434,24 @@ function FitnessEquipInfo() {
         setShowVideos((prevShowVideos) => !prevShowVideos); // 상태를 반전시킴
     };
 
+    const goToDipping = () => {
+        const dippingEquipment = equipmentDetails.find(
+            (equip) => equip.name === "치닝디핑 (디핑)"
+        );
+        if (dippingEquipment) {
+            setSelectedEquipment(dippingEquipment); // "치닝디핑(디핑)" 정보를 선택
+        }
+    };
+
+    const goToChinning = () => {
+        const chinngEquipment = equipmentDetails.find(
+            (equip) => equip.name === "치닝디핑 (치닝)"
+        );
+        if (chinngEquipment) {
+            setSelectedEquipment(chinngEquipment); // "치닝디핑(치닝)" 정보를 선택
+        }
+    };
+
     return (
         <div className="container">
             <h2 className="title">운동기구 상세 정보</h2>
@@ -448,6 +466,42 @@ function FitnessEquipInfo() {
                 }}
             >
                 <h3>{selectedEquipment.name}</h3>
+
+                {/* "운동 방법 바꾸기" 버튼: "치닝디핑(치닝)"인 경우에만 표시 */}
+                {selectedEquipment.name === "치닝디핑 (치닝)" && (
+                    <button
+                        onClick={goToDipping}
+                        style={{
+                            backgroundColor: '#FFD700',
+                            color: '#000',
+                            border: 'none',
+                            borderRadius: '8px',
+                            padding: '10px 15px',
+                            cursor: 'pointer',
+                            marginBottom: '10px',
+                        }}
+                    >
+                        운동 방법 바꾸기
+                    </button>
+                )}
+
+                {selectedEquipment.name === "치닝디핑 (디핑)" && (
+                    <button
+                        onClick={goToChinning}
+                        style={{
+                            backgroundColor: '#FFD700',
+                            color: '#000',
+                            border: 'none',
+                            borderRadius: '8px',
+                            padding: '10px 15px',
+                            cursor: 'pointer',
+                            marginBottom: '10px',
+                        }}
+                    >
+                        운동 방법 바꾸기
+                    </button>
+                )}
+
                 <p style={{ whiteSpace: 'pre-line' }}>{selectedEquipment.description}</p>
                 <FitnessEquipGif equipmentName={selectedEquipment.name} />
 
