@@ -474,7 +474,7 @@ function FitnessEquipInfo() {
                 {showVideos ? "영상 숨기기" : "영상 보기"}
                 </button>
 
-                {showVideos && ( // showVideos가 true일 때만 영상 목록 표시
+                {showVideos && ( 
                     <div className="video-thumbnails">
                         {(selectedEquipment.videos || []).map((video, index) => (
                             <a
