@@ -48,9 +48,9 @@
 
 /* 운동 계획 입력 필드 스타일 */
 .input-plan {
-    width: 100%;
-    padding: 15px;
-    margin: 15px 0;
+    width: 14%;
+    padding: 10px;
+    margin: 15px 10px 15px 0;
     border: 1px solid #ddd;
     border-radius: 5px;
     font-size: 18px;
@@ -58,13 +58,13 @@
 
 /* 운동 계획 추가 버튼 스타일 */
 .add-button {
-    width: 100%;
-    padding: 15px;
+    width: 4%;
+    padding: 8px;
     background-color: #007bff;
     color: white;
     border: none;
     border-radius: 5px;
-    font-size: 18px;
+    font-size: 15px;
     cursor: pointer;
 }
 
@@ -85,4 +85,24 @@
 h2 {
     font-size: 26px;
     font-weight: bold;
+}
+
+/* 삭제 버튼 스타일 */
+.delete-button {
+    margin-left: 20px;
+    background-color: #fff;
+    color: #FF5A5A;
+    border: 1px solid #FF5A5A;
+    border-radius: 4px;
+    padding: 2px 4px;
+    font-size: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    height: 20px;
+    min-width: 20px;
+}
+
+.delete-button:hover {
+    background-color: #FF5A5A;
+    color: #fff;
 }

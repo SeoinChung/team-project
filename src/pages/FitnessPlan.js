@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import './FitnessPlan.css';
+
 
 function FitnessPlan() {
     const [plans, setPlans] = useState({});
     const [newPlan, setNewPlan] = useState("");
     const [selectedDate, setSelectedDate] = useState(new Date());
 
+    // 새로운 운동 계획 추가 함수
     const handleAddPlan = () => {
         if (newPlan) {
             const formattedDate = selectedDate.toLocaleDateString();
@@ -19,9 +22,10 @@ function FitnessPlan() {
         }
     };
 
+    // 체크박스 상태 변경 함수
     const handleToggleComplete = (index) => {
         const formattedDate = selectedDate.toLocaleDateString();
-        const updatedPlans = plans[formattedDate].map((plan, i) => 
+        const updatedPlans = plans[formattedDate].map((plan, i) =>
             i === index ? { ...plan, completed: !plan.completed } : plan
         );
 
@@ -36,6 +40,17 @@ function FitnessPlan() {
         });
     };
 
+    // 운동 계획 삭제 함수
+    const handleDeletePlan = (index) => {
+        const formattedDate = selectedDate.toLocaleDateString();
+        const updatedPlans = plans[formattedDate].filter((_, i) => i !== index);
+        setPlans({
+            ...plans,
+            [formattedDate]: updatedPlans
+        });
+    };
+
+    // 선택된 날짜의 계획을 표시하는 함수
     const renderPlansForSelectedDate = () => {
         const formattedDate = selectedDate.toLocaleDateString();
         return plans[formattedDate] ? (
@@ -61,7 +76,13 @@ function FitnessPlan() {
                             onChange={() => handleToggleComplete(index)}
                             style={{ marginRight: "8px" }}
                         />
-                        {plan.text}
+                        <span>{plan.text}</span>
+                        <button
+                            onClick={() => handleDeletePlan(index)}
+                            className="delete-button"
+                        >
+                            삭제
+                        </button>
                     </li>
                 ))}
             </ul>
