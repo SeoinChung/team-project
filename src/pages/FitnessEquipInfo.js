@@ -392,6 +392,34 @@ export const equipmentDetails = [
             }
         ],
         images: "/images/inner_thigh.jpg"
+    },
+    { name: "아웃타이",
+        description: "채워주세요.",
+        exerciseInstructions: "채워주세요",
+        warning:"채워주세요",
+        videos: [
+            { 
+                title: "공백", 
+                thumbnail: "", 
+                videoLink: ""
+            },
+            { 
+                title: "공백", 
+                thumbnail: "", 
+                videoLink: ""
+            },
+            { 
+                title: "공백", 
+                thumbnail: "", 
+                videoLink: ""
+            },
+            { 
+                title: "공백", 
+                thumbnail: "", 
+                videoLink: ""
+            }
+        ],
+        images: "/images/out_thigh.jpg"
     }
 ];
 

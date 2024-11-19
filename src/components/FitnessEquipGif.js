@@ -12,10 +12,11 @@ function FitnessEquipGif({ equipmentName }) {
     "리버스 하이퍼(백) 익스텐션": "/images/reverse-hyper-extension.mp4",
     "스텝퍼": "/images/stepper.mp4",
     "런닝머신": "/images/treadmill.mp4",
-    "일립티컬 머신": "images/elliptical_machine.mp4",
-    "싸이클": "images/cycle.mp4",
-    "이너타이": "images/inner_thigh.mp4",
-    "레그 익스텐션": "images/leg_extension.mp4",
+    "일립티컬 머신": "/images/elliptical_machine.mp4",
+    "싸이클": "/images/cycle.mp4",
+    "이너타이": "/images/inner_thigh.mp4",
+    "아웃타이": "/images/out_thigh.mp4",
+    "레그 익스텐션": "/images/leg_extension.mp4"
   };
 
   const selectedVideo = videoSrc[equipmentName];
@@ -23,8 +24,9 @@ function FitnessEquipGif({ equipmentName }) {
 
   useEffect(() => {
     setIsVideoLoaded(false);
+
     if (Array.isArray(selectedVideo)) {
-      // 모든 비디오가 로드되면 isVideoLoaded를 true로 설정
+      
       Promise.all(
         selectedVideo.map(src => new Promise((resolve) => {
           const video = document.createElement('video');
@@ -32,14 +34,13 @@ function FitnessEquipGif({ equipmentName }) {
           video.onloadeddata = () => resolve(true);
         }))
       ).then(() => setIsVideoLoaded(true));
-    } else {
-      // 단일 비디오 로드 완료
+    } else if (selectedVideo) {
+      
       const video = document.createElement('video');
       video.src = selectedVideo;
       video.onloadeddata = () => setIsVideoLoaded(true);
     }
-  }, [equipmentName]);
-
+  }, [selectedVideo]);
   return (
     <div>
       {isVideoLoaded && Array.isArray(selectedVideo) ? (
@@ -56,11 +57,13 @@ function FitnessEquipGif({ equipmentName }) {
             </video>
           ))}
         </div>
-      ) : (
+      ) : isVideoLoaded ? (
         <video key={equipmentName} width="100%" autoPlay loop muted>
           <source src={selectedVideo} type="video/mp4" />
           Your browser does not support the video tag.
         </video>
+      ) : (
+        <p>로딩 중...</p>
       )}
     </div>
   );

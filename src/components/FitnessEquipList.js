@@ -16,7 +16,8 @@ const equipment = [
     "일립티컬 머신",
     "싸이클",
     "레그 익스텐션",
-    "이너타이"
+    "이너타이",
+    "아웃타이"
 ];
 
 function FitnessEquipList() {

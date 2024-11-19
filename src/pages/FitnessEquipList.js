@@ -13,10 +13,11 @@ function FitnessEquipGif({ equipmentName }) {
     "리버스 하이퍼(백) 익스텐션": "/images/reverse-hyper-extension.mp4",
     "스텝퍼": "/images/stepper.mp4",
     "런닝머신": "/images/treadmill.mp4",
-    "일립티컬 머신": "images/elliptical_machine.mp4",
-    "싸이클": "images/cycle.mp4",
-    "레그 익스텐션": "images/leg_extension.mp4",
-    "이너타이": "images/inner_thigh.mp4"
+    "일립티컬 머신": "/images/elliptical_machine.mp4",
+    "싸이클": "/images/cycle.mp4",
+    "레그 익스텐션": "/images/leg_extension.mp4",
+    "이너타이": "/images/inner_thigh.mp4",
+    "아웃타이": "/images/out_thigh.mp4"
   };
 
   const selectedVideo = videoSrc[equipmentName];
