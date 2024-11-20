@@ -423,15 +423,12 @@ export const equipmentDetails = [
     }
 ];
 
-
-
 function FitnessEquipInfo() {
     const [selectedEquipment, setSelectedEquipment] = useState(equipmentDetails[0]);
-
-    const [showVideos, setShowVideos] = useState(false); // 영상 표시 여부를 관리하는 상태
+    const [showVideos, setShowVideos] = useState(false);
 
     const handleWatchViewToggle = () => {
-        setShowVideos((prevShowVideos) => !prevShowVideos); // 상태를 반전시킴
+        setShowVideos((prevShowVideos) => !prevShowVideos);
     };
 
     const goToDipping = () => {
@@ -439,16 +436,16 @@ function FitnessEquipInfo() {
             (equip) => equip.name === "치닝디핑 (디핑)"
         );
         if (dippingEquipment) {
-            setSelectedEquipment(dippingEquipment); // "치닝디핑(디핑)" 정보를 선택
+            setSelectedEquipment(dippingEquipment);
         }
     };
 
     const goToChinning = () => {
-        const chinngEquipment = equipmentDetails.find(
+        const chinningEquipment = equipmentDetails.find(
             (equip) => equip.name === "치닝디핑 (치닝)"
         );
-        if (chinngEquipment) {
-            setSelectedEquipment(chinngEquipment); // "치닝디핑(치닝)" 정보를 선택
+        if (chinningEquipment) {
+            setSelectedEquipment(chinningEquipment);
         }
     };
 
@@ -457,7 +454,7 @@ function FitnessEquipInfo() {
             (equip) => equip.name === "아웃타이"
         );
         if (outthighEquipment) {
-            setSelectedEquipment(outthighEquipment); // "아웃타이" 정보를 선택
+            setSelectedEquipment(outthighEquipment);
         }
     };
 
@@ -466,91 +463,37 @@ function FitnessEquipInfo() {
             (equip) => equip.name === "이너타이"
         );
         if (innerthighEquipment) {
-            setSelectedEquipment(innerthighEquipment); // "이너타이" 정보를 선택
+            setSelectedEquipment(innerthighEquipment);
         }
     };
 
     return (
         <div className="container">
             <h2 className="title">운동기구 상세 정보</h2>
-            <div className="detail-box"
-                style={{
-                    border: '1px solid #84c1de',  
-                    borderRadius: '10px',
-                    padding: '20px',
-                    width: '600px',
-                    margin: '0 auto',
-                    textAlign: 'center'
-                }}
-            >
+            <div className="detail-box">
                 <h3>{selectedEquipment.name}</h3>
 
-                {/* "운동 방법 바꾸기" 버튼: "치닝디핑(치닝)"인 경우에만 표시 */}
                 {selectedEquipment.name === "치닝디핑 (치닝)" && (
-                    <button
-                        onClick={goToDipping}
-                        style={{
-                            backgroundColor: '#FFD700',
-                            color: '#000',
-                            border: 'none',
-                            borderRadius: '8px',
-                            padding: '10px 15px',
-                            cursor: 'pointer',
-                            marginBottom: '10px',
-                        }}
-                    >
-                        운동 방법 바꾸기
+                    <button className="action-button" onClick={goToDipping}>
+                        치닝디핑(디핑) 운동법
                     </button>
                 )}
 
                 {selectedEquipment.name === "치닝디핑 (디핑)" && (
-                    <button
-                        onClick={goToChinning}
-                        style={{
-                            backgroundColor: '#FFD700',
-                            color: '#000',
-                            border: 'none',
-                            borderRadius: '8px',
-                            padding: '10px 15px',
-                            cursor: 'pointer',
-                            marginBottom: '10px',
-                        }}
-                    >
-                        운동 방법 바꾸기
+                    <button className="action-button" onClick={goToChinning}>
+                        치닝디핑(치닝) 운동법
                     </button>
                 )}
 
                 {selectedEquipment.name === "이너타이" && (
-                    <button
-                        onClick={goToOut}
-                        style={{
-                            backgroundColor: '#FFD700',
-                            color: '#000',
-                            border: 'none',
-                            borderRadius: '8px',
-                            padding: '10px 15px',
-                            cursor: 'pointer',
-                            marginBottom: '10px',
-                        }}
-                    >
-                        운동 방법 바꾸기
+                    <button className="action-button" onClick={goToOut}>
+                        아웃타이 운동법
                     </button>
                 )}
 
                 {selectedEquipment.name === "아웃타이" && (
-                    <button
-                        onClick={goToInner}
-                        style={{
-                            backgroundColor: '#FFD700',
-                            color: '#000',
-                            border: 'none',
-                            borderRadius: '8px',
-                            padding: '10px 15px',
-                            cursor: 'pointer',
-                            marginBottom: '10px',
-                        }}
-                    >
-                        운동 방법 바꾸기
+                    <button className="action-button" onClick={goToInner}>
+                        이너타이 바꾸기
                     </button>
                 )}
 
