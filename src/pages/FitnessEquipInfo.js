@@ -452,6 +452,24 @@ function FitnessEquipInfo() {
         }
     };
 
+    const goToOut = () => {
+        const outthighEquipment = equipmentDetails.find(
+            (equip) => equip.name === "아웃타이"
+        );
+        if (outthighEquipment) {
+            setSelectedEquipment(outthighEquipment); // "아웃타이" 정보를 선택
+        }
+    };
+
+    const goToInner = () => {
+        const innerthighEquipment = equipmentDetails.find(
+            (equip) => equip.name === "이너타이"
+        );
+        if (innerthighEquipment) {
+            setSelectedEquipment(innerthighEquipment); // "이너타이" 정보를 선택
+        }
+    };
+
     return (
         <div className="container">
             <h2 className="title">운동기구 상세 정보</h2>
@@ -488,6 +506,40 @@ function FitnessEquipInfo() {
                 {selectedEquipment.name === "치닝디핑 (디핑)" && (
                     <button
                         onClick={goToChinning}
+                        style={{
+                            backgroundColor: '#FFD700',
+                            color: '#000',
+                            border: 'none',
+                            borderRadius: '8px',
+                            padding: '10px 15px',
+                            cursor: 'pointer',
+                            marginBottom: '10px',
+                        }}
+                    >
+                        운동 방법 바꾸기
+                    </button>
+                )}
+
+                {selectedEquipment.name === "이너타이" && (
+                    <button
+                        onClick={goToOut}
+                        style={{
+                            backgroundColor: '#FFD700',
+                            color: '#000',
+                            border: 'none',
+                            borderRadius: '8px',
+                            padding: '10px 15px',
+                            cursor: 'pointer',
+                            marginBottom: '10px',
+                        }}
+                    >
+                        운동 방법 바꾸기
+                    </button>
+                )}
+
+                {selectedEquipment.name === "아웃타이" && (
+                    <button
+                        onClick={goToInner}
                         style={{
                             backgroundColor: '#FFD700',
                             color: '#000',
@@ -559,7 +611,13 @@ function FitnessEquipInfo() {
                 {equipmentDetails.map((equip, index) => (
                     <button 
                         key={index} 
-                        onClick={() => setSelectedEquipment(equip)}
+                        onClick={() => {
+                            setSelectedEquipment(equip);
+                            window.scrollTo({ // 화면을 맨 위로 스크롤
+                                top: 0,
+                                behavior: "smooth" // 부드러운 스크롤
+                              });
+                        }}
                         className={`nav-button ${selectedEquipment.name === equip.name ? 'active' : ''}`}
                     >
                         <img 
