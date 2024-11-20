@@ -1,153 +1,200 @@
-.button-group {
-    display: flex;
-    flex-wrap: nowrap;
-    gap: 10px;
-    margin-top: 20px;
-    width: 100%; 
-    overflow: hidden; 
-    overflow-x: auto;
+/* 상세 박스 스타일 */
+.detail-box {
+    border: 1px solid #84c1de;
+    border-radius: 10px;
+    padding: 20px;
+    width: 600px;
+    margin: 0 auto;
+    text-align: center;
 }
 
-.nav-button {
+/* 제목 스타일 */
+.title {
+    font-size: 30px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.detail-box h3 {
+    font-size: 25px;
+    color: #333;
+    margin-bottom: 20px;
+    margin-top:10px;
+    font-weight: 1000;
+}
+
+/* 운동기구 설명 및 텍스트 */
+.detail-box p {
+    font-size: 15px;
+    font-weight: 500;
+    color: #666;
+    text-align: center; 
+    white-space: pre-wrap;
+    word-break: break-word;
+    margin-top: 10px;
+}
+
+/* 운동 방법 및 주의 사항 텍스트 */
+.exercise-method-description,
+.warning-description {
+    font-size: 15px;
+    font-weight: 500;
+    color: #666;
+    white-space: pre-wrap;
+    word-break: break-word;
+    text-align: left;
+    margin-top: 10px;
+}
+
+/* 운동 방법 및 주의 사항 리스트 */
+.exercise-method-description li,
+.warning-description li {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+/* 숫자 및 . 앞에 표시하기 */
+.exercise-method-description li span::before,
+.warning-description li span::before {
+    content: attr(data-number); 
+    font-weight: bold;
+    margin-right: 8px;
+    flex-shrink: 0;
+}
+
+/* 숫자 및 텍스트 스타일 */
+.exercise-method-description li span,
+.warning-description li span {
+    font-weight: bold;
+    margin-right: 8px;
+    flex-shrink: 0;
+}
+
+/* 영상 보기/숨기기 버튼 */
+.watch-view-button {
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 15px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.watch-view-button.video-show {
+    background-color: red;
+}
+
+.watch-view-button.video-hide {
+    background-color: #007bff;
+}
+
+.watch-view-button:hover {
+    filter: brightness(0.9);
+}
+
+/* 썸네일 이미지 */
+.video-thumbnails {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.video-thumbnail {
+    width: 128px;
+    height: auto;
+    border-radius: 8px;
+    transition: transform 0.2s ease;
+}
+
+.video-thumbnail:hover {
+    transform: scale(1.1);
+}
+
+.video-link {
+    text-decoration: none;
+}
+
+/* 액션 버튼 */
+.action-button {
+    background-color: #FFD700;
+    color: #000;
+    border: none;
+    border-radius: 8px;
+    padding: 5px 7px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    font-size: 11px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.action-button:hover {
+    background-color: #FFC300;
+}
+
+/* .equipment-image-button: 운동기구 선택 버튼 이미지 */
+.equipment-image-button {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+/* 버튼 그룹 스타일 (가로로 나열되고 스크롤 가능) */
+.button-group {
+    display: flex;
     flex-wrap: nowrap; 
+    gap: 10px;
+    margin-top: 20px;
+    width: 100%;
+    overflow-x: auto;  
+    overflow-y: hidden; 
+    padding-bottom: 10px; 
+}
+
+/* 각 버튼 스타일 */
+.nav-button {
     background: none;
     border: none;
     cursor: pointer;
     padding: 10px;
     border-radius: 5px;
     transition: background-color 0.3s;
-    width: calc(50% - 10px);
+    width: 150px; 
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
+/* 버튼에 마우스를 올렸을 때 배경색 변화 */
 .nav-button:hover {
     background-color: #f0f0f0;
 }
 
-@media (min-width: 1200px) {
-    .nav-button {
-        width: calc(20% - 10px);
-    }
-}
-
-@media (min-width: 1000px) and (max-width: 1199px) {
-    .nav-button {
-        width: calc(25% - 10px);
-    }
-}
-
-@media (min-width: 768px) and (max-width: 999px) {
-    .nav-button {
-        width: calc(33.33% - 10px);
-    }
-}
-
-@media (min-width: 600px) and (max-width: 767px) {
-    .nav-button {
-        width: calc(50% - 10px);
-    }
-}
-
-@media (max-width: 479px) {
-    .nav-button {
-        width: 100%;
-    }
-}
-
+/* 화면 크기에 맞는 버튼 크기 조정 */
 @media (max-width: 600px) {
-    .title {
-        font-size: 24px;
-    }
-
-    .detail-box {
-        padding: 15px;
-        max-width: 90%;
-    }
-
-    .detail-box h3 {
-        font-size: 22px;
-    }
-
-    .detail-box p {
-        font-size: 14px;
-    }
-
-    .detail-box h4 {
-        font-size: 16px;
-    }
-
-    .exercise-method-description,
-    .warning-description {
-        font-size: 14px;
-    }
-
-    .button-group {
-        flex-direction: row;
-        gap: 15px;
-    }
-
     .nav-button {
-        width: calc(50% - 10px);
-    }
-
-    .video-thumbnail {
-        width: 100px;
+        width: 120px; 
     }
 }
 
+/* 가장 작은 화면에서 버튼 크기 조정 */
 @media (max-width: 480px) {
-    .title {
-        font-size: 20px;
-    }
-
-    .detail-box {
-        padding: 10px;
-        max-width: 95%;
-    }
-
-    .detail-box h3 {
-        font-size: 20px;
-    }
-
-    .detail-box p {
-        font-size: 13px;
-    }
-
-    .detail-box h4 {
-        font-size: 14px;
-    }
-
-    .exercise-method-description,
-    .warning-description {
-        font-size: 12px;
-    }
-
-    .button-group {
-        flex-direction: row;
-        gap: 10px;
-    }
-
     .nav-button {
-        width: calc(50% - 10px);
-    }
-
-    .video-thumbnail {
-        width: 80px;
+        width: 100px; 
     }
 }
 
-.action-button {
-    background-color: #FFD700;
-    color: #000;
-    border: none;
-    border-radius: 8px;
-    padding: 5px 7px; 
-    cursor: pointer;
-    margin-bottom: 10px;
-    font-size: 11px; 
+/* 운동 방법, 주의 사항, 참고 영상 제목 글자 크기 키우기 */
+.detail-box h4 {
+    font-size: 18px; 
     font-weight: bold; 
-    transition: background-color 0.3s;
-}
-
-.action-button:hover {
-    background-color: #FFC300;
+    color: #333; 
 }

@@ -35,7 +35,7 @@ function FitnessEquipDetail() {
                 <h4>운동 방법:</h4>
                 <p>{equipment.exerciseInstructions}</p>
 
-                <h4 style={{ color: "#FF5A5A" }}>주의 사항:</h4>
+                <h4 className="warning-title">주의 사항:</h4>
                 <p>{equipment.warning}</p>
 
                 <h4>참고 영상:</h4>
@@ -55,7 +55,7 @@ function FitnessEquipDetail() {
                         onClick={() => setEquipment(equip)}
                         className={`nav-button ${equipment.name === equip.name ? 'active' : ''}`}
                     >
-                        <img src={equip.images} alt={equip.name} className="equipment-image-button" style={{ width: '100px', height: '100px' }} />
+                        <img src={equip.images} alt={equip.name} className="equipment-image-button" />
                     </button>
                 ))}
             </div>

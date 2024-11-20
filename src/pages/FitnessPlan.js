@@ -3,13 +3,11 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import './FitnessPlan.css';
 
-
 function FitnessPlan() {
     const [plans, setPlans] = useState({});
     const [newPlan, setNewPlan] = useState("");
     const [selectedDate, setSelectedDate] = useState(new Date());
 
-    // 새로운 운동 계획 추가 함수
     const handleAddPlan = () => {
         if (newPlan) {
             const formattedDate = selectedDate.toLocaleDateString();
@@ -22,7 +20,6 @@ function FitnessPlan() {
         }
     };
 
-    // 체크박스 상태 변경 함수
     const handleToggleComplete = (index) => {
         const formattedDate = selectedDate.toLocaleDateString();
         const updatedPlans = plans[formattedDate].map((plan, i) =>
@@ -40,7 +37,6 @@ function FitnessPlan() {
         });
     };
 
-    // 운동 계획 삭제 함수
     const handleDeletePlan = (index) => {
         const formattedDate = selectedDate.toLocaleDateString();
         const updatedPlans = plans[formattedDate].filter((_, i) => i !== index);
@@ -50,26 +46,15 @@ function FitnessPlan() {
         });
     };
 
-    // 선택된 날짜의 계획을 표시하는 함수
     const renderPlansForSelectedDate = () => {
         const formattedDate = selectedDate.toLocaleDateString();
         return plans[formattedDate] ? (
-            <ul style={{
-                padding: "0",
-                listStyleType: "none",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center"
-            }}>
+            <ul className="plan-list">
                 {plans[formattedDate].map((plan, index) => (
-                    <li key={index} style={{
-                        textDecoration: plan.completed ? "line-through" : "none",
-                        color: plan.completed ? "#888" : "#000",
-                        display: "flex",
-                        alignItems: "center",
-                        marginBottom: "8px",
-                        justifyContent: "center"
-                    }}>
+                    <li
+                        key={index}
+                        className={`plan-item ${plan.completed ? "completed" : ""}`}
+                    >
                         <input
                             type="checkbox"
                             checked={plan.completed}

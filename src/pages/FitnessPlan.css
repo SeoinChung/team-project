@@ -109,3 +109,24 @@ h2 {
     background-color: #FF5A5A;
     color: #fff;
 }
+
+.plan-list {
+    padding: 0;
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.plan-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+    color: #000;
+}
+
+.plan-item.completed {
+    text-decoration: line-through;
+    color: #888;
+}
