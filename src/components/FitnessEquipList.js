@@ -1,23 +1,24 @@
-// src/components/FitnessEquipList.js
+// components/FitnessEquipInfo.js
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+// 운동기구 목록
 const equipment = [
-    "랫 풀 다운",
-    "케이블 스트레이트 암 풀 다운",
-    "체스트 프레스",
-    "백 익스텐션",
-    "리버스 하이퍼(백) 익스텐션",
-    "치닝디핑 (치닝)",
-    "치닝디핑 (디핑)",
-    "시티드 레그 프레스",
-    "스텝퍼",
-    "런닝머신",
-    "일립티컬 머신",
-    "싸이클",
-    "레그 익스텐션",
-    "이너타이",
-    "아웃타이"
+    "lat-pull-down",
+    "cable-arm-pulldown",
+    "chest-press",
+    "back-extension",
+    "reverse-hyper-extension",
+    "chinning-dipping1",
+    "chinning-dipping2",
+    "leg-press",
+    "stepper",
+    "treadmill",
+    "elliptical-machine",
+    "cycle",
+    "leg-extension",
+    "inner-thigh",
+    "out-thigh"
 ];
 
 function FitnessEquipList() {
@@ -26,7 +27,8 @@ function FitnessEquipList() {
             <ul>
                 {equipment.map((equip, index) => (
                     <li key={index}>
-                        <Link to={`/info`}>{equip}</Link>
+                        {/* equipment 이름을 URL에 동적으로 반영 */}
+                        <Link to={`/info/${equip.toLowerCase()}`}>{equip}</Link>
                     </li>
                 ))}
             </ul>
