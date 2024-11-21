@@ -67,9 +67,18 @@ function FitnessPlan() {
     const handleDeletePlan = (index) => {
         const formattedDate = selectedDate.toLocaleDateString();
         const updatedPlans = plans[formattedDate].filter((_, i) => i !== index);
-        setPlans({
-            ...plans,
-            [formattedDate]: updatedPlans
+    
+        setPlans((prevPlans) => {
+            if (updatedPlans.length === 0) {
+                // 날짜의 계획이 비어 있다면 삭제
+                const { [formattedDate]: _, ...remainingPlans } = prevPlans;
+                return remainingPlans;
+            } else {
+                return {
+                    ...prevPlans,
+                    [formattedDate]: updatedPlans
+                };
+            }
         });
     };
 
