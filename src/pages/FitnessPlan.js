@@ -1,12 +1,39 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import './FitnessPlan.css';
+import { equipmentDetails } from './FitnessEquipData';
+
+
 
 function FitnessPlan() {
     const [plans, setPlans] = useState({});
     const [newPlan, setNewPlan] = useState("");
     const [selectedDate, setSelectedDate] = useState(new Date());
+    const [recommendedExercises, setRecommendedExercises] = useState({
+        상체: null,
+        하체: null,
+        등: null,
+    }); // 상체, 하체, 등 각각의 추천 운동 상태 추가
+
+    // muscle을 기준으로 랜덤 운동을 추천하는 함수
+    const getRandomExercise = (muscleGroup) => {
+        const filteredExercises = equipmentDetails.filter(
+            (exercise) => exercise.muscle === muscleGroup
+        );
+        const randomIndex = Math.floor(Math.random() * filteredExercises.length);
+        return filteredExercises[randomIndex];
+    };
+
+    // 날짜 선택 시 랜덤 운동 추천
+    useEffect(() => {
+        const muscleGroups = ["상체", "하체", "등"]; // 상체, 하체, 등 그룹으로 분류
+        const randomExercises = muscleGroups.reduce((acc, group) => {
+            acc[group] = getRandomExercise(group);
+            return acc;
+        }, {});
+        setRecommendedExercises(randomExercises);
+    }, [selectedDate]); // 날짜가 변경될 때마다 추천 운동 갱신
 
     const handleAddPlan = () => {
         if (newPlan) {
@@ -100,8 +127,29 @@ function FitnessPlan() {
 
             <h3>{selectedDate.toLocaleDateString()}의 운동 계획</h3>
             {renderPlansForSelectedDate()}
+
+            {/* 운동 추천 출력 */}
+            <div className="notification-box">
+                <div className="icon">ℹ️</div>
+                <div>
+                    <h4>오늘은 이런 운동 어떠세요?</h4>
+                    <ul>
+                        {recommendedExercises.상체 && (
+                            <li>상체: {recommendedExercises.상체.displayName}</li>
+                        )}
+                        {recommendedExercises.하체 && (
+                            <li>하체: {recommendedExercises.하체.displayName}</li>
+                        )}
+                        {recommendedExercises.등 && (
+                            <li>등: {recommendedExercises.등.displayName}</li>
+                        )}
+                    </ul>
+                </div>
+            </div>
+
         </div>
     );
+    
 }
 
 export default FitnessPlan;

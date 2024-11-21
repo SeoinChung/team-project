@@ -1,3 +1,45 @@
+.notification-box {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    background-color: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 16px;
+    margin: 20px auto; /* 화면 가운데 정렬 */
+    font-size: 14px;
+    color: #495057;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    max-width: 400px; /* 최대 박스 너비 지정 */
+    width: fit-content; /* 내용에 맞게 크기 조정 */
+}
+
+.notification-box .icon {
+    font-size: 18px;
+   
+}
+
+.notification-box h4 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: bold;
+    color: #343a40;
+}
+
+.notification-box ul {
+    margin: 0;
+    padding-left: 20px; /* 불릿과 텍스트 간 간격 확보 */
+    list-style-type: disc; /* 디스크형 불릿 스타일 */
+    list-style-position: inside; /* 불릿을 안쪽으로 이동 */
+}
+
+.notification-box li {
+    margin: 8px 0; /* 항목 간 간격 균일화 */
+    line-height: 1.6; /* 줄 간격 조정 */
+    text-align: left; /* 텍스트 정렬 왼쪽 고정 */
+}
+
+
 /* 기본 스타일: 달력 컨테이너 */
 .custom-calendar {
     display: inline-block;
