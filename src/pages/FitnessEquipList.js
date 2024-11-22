@@ -11,13 +11,13 @@ const equipment = [
     "chinning-dipping1",
     "chinning-dipping2",
     "leg-press",
-    "stepper",
-    "treadmill",
-    "elliptical-machine",
-    "cycle",
     "leg-extension",
     "inner-thigh",
-    "out-thigh"
+    "out-thigh",
+    "treadmill",
+    "stepper",
+    "elliptical-machine",
+    "cycle"
 ];
 
 function FitnessEquipList() {
