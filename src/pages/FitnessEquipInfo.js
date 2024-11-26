@@ -26,6 +26,41 @@ function FitnessEquipInfo() {
     const handleWatchViewToggle = () => {
         setShowVideos((prevShowVideos) => !prevShowVideos);
     };
+    const goToDipping = () => {
+        const dippingEquipment = equipmentDetails.find(
+            (equip) => equip.name === "chinning-dipping1"
+        );
+        if (dippingEquipment) {
+            setSelectedEquipment(dippingEquipment); // "치닝디핑(디핑)" 정보를 선택
+        }
+    };
+
+    const goToChinning = () => {
+        const chinngEquipment = equipmentDetails.find(
+            (equip) => equip.name === "chinning-dipping2"
+        );
+        if (chinngEquipment) {
+            setSelectedEquipment(chinngEquipment); // "치닝디핑(치닝)" 정보를 선택
+        }
+    };
+
+    const goToOut = () => {
+        const outthighEquipment = equipmentDetails.find(
+            (equip) => equip.name === "out-thigh"
+        );
+        if (outthighEquipment) {
+            setSelectedEquipment(outthighEquipment); // "아웃타이" 정보를 선택
+        }
+    };
+
+    const goToInner = () => {
+        const innerthighEquipment = equipmentDetails.find(
+            (equip) => equip.name === "inner-thigh"
+        );
+        if (innerthighEquipment) {
+            setSelectedEquipment(innerthighEquipment); // "이너타이" 정보를 선택
+        }
+    };
 
     const handleEquipmentSelection = (equipment) => {
         setSelectedEquipment(equipment);
@@ -57,6 +92,74 @@ function FitnessEquipInfo() {
             <div className="detail-box">
                 <h3>{selectedEquipment.displayName}</h3>
                 <p>{selectedEquipment.description}</p>
+
+                                {/* "운동 방법 바꾸기" 버튼: "치닝디핑(치닝)"인 경우에만 표시 */}
+                                {selectedEquipment.name === "chinning-dipping1" && (
+                    <button
+                        onClick={goToChinning}
+                        style={{
+                            backgroundColor: '#FFD700',
+                            color: '#000',
+                            border: 'none',
+                            borderRadius: '8px',
+                            padding: '10px 15px',
+                            cursor: 'pointer',
+                            marginBottom: '10px',
+                        }}
+                    >
+                        운동 방법 바꾸기
+                    </button>
+                )}
+                {selectedEquipment.name === "chinning-dipping2" && (
+                    <button
+                        onClick={goToDipping}
+                        style={{
+                            backgroundColor: '#FFD700',
+                            color: '#000',
+                            border: 'none',
+                            borderRadius: '8px',
+                            padding: '10px 15px',
+                            cursor: 'pointer',
+                            marginBottom: '10px',
+                        }}
+                    >
+                        운동 방법 바꾸기
+                    </button>
+                )}
+                {selectedEquipment.name === "inner-thigh" && (
+                    <button
+                        onClick={goToOut}
+                        style={{
+                            backgroundColor: '#FFD700',
+                            color: '#000',
+                            border: 'none',
+                            borderRadius: '8px',
+                            padding: '10px 15px',
+                            cursor: 'pointer',
+                            marginBottom: '10px',
+                        }}
+                    >
+                        운동 방법 바꾸기
+                    </button>
+                )}
+
+                {selectedEquipment.name === "out-thigh" && (
+                    <button
+                        onClick={goToInner}
+                        style={{
+                            backgroundColor: '#FFD700',
+                            color: '#000',
+                            border: 'none',
+                            borderRadius: '8px',
+                            padding: '10px 15px',
+                            cursor: 'pointer',
+                            marginBottom: '10px',
+                        }}
+                    >
+                        운동 방법 바꾸기
+                    </button>
+                )}
+                
                 <FitnessEquipGif equipmentName={selectedEquipment.name} />
 
                 <h4>운동 방법:</h4>
