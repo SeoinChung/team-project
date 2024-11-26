@@ -1,3 +1,117 @@
+/* 전체 달력 스타일 */
+.react-datepicker {
+    border: 2px solid #4e94d9; /* 테두리 색상 */
+    border-radius: 10px;
+    background-color: #f8f8f8; /* 배경색 */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif; /* 폰트 */
+    color: #4a4a4a;
+    width: auto; /* 자동 크기 조정 */
+    padding: 10px;
+}
+
+/* 헤더 스타일 */
+.react-datepicker__header {
+    background-color: #4e94d9; /* 헤더 배경 */
+    border-bottom: 1px solid #e6e6e6;
+    padding: 10px 0;
+    color: #ffffff;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* 네비게이션 버튼 */
+.react-datepicker__navigation {
+    top: 15px; /* 위치 조정 */
+    border: none;
+    background: none;
+    font-size: 18px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.react-datepicker__navigation--previous {
+    left: 10px;
+}
+
+.react-datepicker__navigation--next {
+    right: 10px;
+}
+
+/* 날짜 선택 영역 */
+.react-datepicker__month {
+    margin: 10px 0;
+}
+
+.react-datepicker__day,
+.react-datepicker__day-name {
+    width: 2.5rem;
+    height: 2.5rem;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0.2rem;
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+
+.react-datepicker__day-name {
+    font-weight: bold;
+    color: #4a4a4a;
+}
+
+.react-datepicker__day {
+    background-color: #ffffff; /* 기본 배경 */
+    color: #4a4a4a; /* 기본 텍스트 색상 */
+    font-weight: normal;
+}
+
+/* 오늘 날짜 */
+.react-datepicker__day--today {
+    font-weight: bold;
+    border: 2px solid #45b0df;
+    color: #4e94d9;
+}
+
+/* 선택된 날짜 */
+.react-datepicker__day--selected {
+    background-color: #4e94d9;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+/* 날짜 hover */
+.react-datepicker__day:hover {
+    background-color: #a3d7b3;
+    color: #ffffff;
+}
+
+/* 운동 계획 입력 필드 스타일 */
+.input-plan {
+    width: 26%;
+    padding: 10px;
+    margin: 15px 10px 15px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 18px;
+}
+
+/* 운동 계획 추가 버튼 스타일 */
+.add-button {
+    width: 10%;
+    aspect-ratio: 3 / 1; 
+    padding: 4px;
+    background-color:#0171c1;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    min-width: 45px; 
+    min-height: 40px; 
+}
+
 .notification-box {
     display: flex;
     align-items: flex-start;
@@ -37,93 +151,6 @@
     margin: 8px 0; /* 항목 간 간격 균일화 */
     line-height: 1.6; /* 줄 간격 조정 */
     text-align: left; /* 텍스트 정렬 왼쪽 고정 */
-}
-
-
-/* 기본 스타일: 달력 컨테이너 */
-.custom-calendar {
-    display: inline-block;
-    text-align: center;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 15px;
-    background-color: #ffffff;
-    width: 100%;
-    max-width: 700px;
-}
-
-/* 달력 헤더 스타일 (월/일 등의 텍스트) */
-.calendar-header {
-    margin-bottom: 15px;
-    font-weight: bold;
-    color: #333;
-    font-size: 18px;
-}
-
-/* 달력의 날짜를 그리드로 표시 */
-.calendar-days {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 10px;
-}
-
-/* 각 날짜 박스 스타일 */
-.calendar-day {
-    padding: 15px;
-    cursor: pointer;
-    border-radius: 3px;
-    transition: background-color 0.2s;
-    background-color: #f9f9f9;
-    font-size: 16px;
-}
-
-/* 날짜에 마우스를 올렸을 때 색상 변화 */
-.calendar-day:hover {
-    background-color: #e0e0e0;
-}
-
-/* 선택된 날짜의 스타일 */
-.calendar-day.selected {
-    background-color: #ccc;
-    color: black;
-}
-
-/* 운동 계획 입력 필드 스타일 */
-.input-plan {
-    width: 26%;
-    padding: 10px;
-    margin: 15px 10px 15px 0;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 18px;
-}
-
-/* 운동 계획 추가 버튼 스타일 */
-.add-button {
-    width: 10%;
-    aspect-ratio: 3 / 1; 
-    padding: 4px;
-    background-color:#0171c1;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 14px;
-    cursor: pointer;
-    min-width: 45px; 
-    min-height: 40px; 
-}
-
-.add-button:hover {
-    background-color: #45b0df;
-}
-
-
-/* 달력 및 버튼 그룹 스타일 */
-.calendar-container {
-    margin: 30px 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 }
 
 /* 페이지 제목 스타일 */
@@ -172,3 +199,4 @@ h2 {
     text-decoration: line-through;
     color: #888;
 }
+

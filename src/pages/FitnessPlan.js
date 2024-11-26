@@ -3,18 +3,23 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import './FitnessPlan.css';
 import { equipmentDetails } from './FitnessEquipData';
+import { useSearchParams } from 'react-router-dom';
 
 function FitnessPlan() {
+    const [searchParams] = useSearchParams();  
+    const actualUserId = searchParams.get('userId') || 'default_name'; // URL에서 바로 userId를 받아 설정
+    console.log(actualUserId);  // 유저 ID가 제대로 들어오는지 확인하기 위해 출력
     const [plans, setPlans] = useState({});
     const [newPlan, setNewPlan] = useState("");
     const [selectedDate, setSelectedDate] = useState(new Date());
+    const [noPlansMessage, setNoPlansMessage] = useState(false);
     const [recommendedExercises, setRecommendedExercises] = useState({
         상체: null,
         하체: null,
         등: null,
     });
-    const [noPlansMessage, setNoPlansMessage] = useState(false); // 해당 날짜에 계획이 없다는 메시지를 보여줄지 여부
 
+    // 운동 추천 함수
     const getRandomExercise = (muscleGroup) => {
         const filteredExercises = equipmentDetails.filter(
             (exercise) => exercise.muscle === muscleGroup
@@ -23,7 +28,6 @@ function FitnessPlan() {
         return filteredExercises[randomIndex];
     };
 
-    // 날짜 선택 시 랜덤 운동 추천
     useEffect(() => {
         const muscleGroups = ["상체", "하체", "등"];
         const randomExercises = muscleGroups.reduce((acc, group) => {
@@ -33,13 +37,15 @@ function FitnessPlan() {
         setRecommendedExercises(randomExercises);
     }, [selectedDate]);
 
-    // 서버에서 운동 계획 가져오기
     const fetchPlans = async () => {
-        const response = await fetch("http://223.194.154.149:5001/api/plan");
-        if (response.ok) {
+        try {
+            const response = await fetch(`http://223.194.154.149:5001/api/plan?userId=${actualUserId}`);
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status} - ${response.statusText}`);
+            }
             const data = await response.json();
             const plansByDate = data.reduce((acc, plan) => {
-                const date = new Date(plan.date).toLocaleDateString('ko-KR'); // 로컬 날짜 형식 사용
+                const date = new Date(plan.date).toLocaleDateString('ko-KR');
                 if (!acc[date]) {
                     acc[date] = [];
                 }
@@ -47,16 +53,14 @@ function FitnessPlan() {
                 return acc;
             }, {});
             setPlans(plansByDate);
-        } else {
-            console.error("운동 계획을 가져오는 데 오류가 발생했습니다.");
+        } catch (error) {
+            console.error("운동 계획을 가져오는 데 실패했습니다:", error.message);
         }
-    };
+    };    
 
-    // 페이지 로드 시 plans 초기화
     useEffect(() => {
-        fetchPlans(); // 컴포넌트 처음 렌더링 시에도 호출
+        fetchPlans();  // 페이지 로드 시 운동 계획 가져오기
 
-        // 로컬 스토리지에서 마지막 선택된 날짜 불러오기
         const savedDate = localStorage.getItem("selectedDate");
         if (savedDate) {
             setSelectedDate(new Date(savedDate));
@@ -64,63 +68,65 @@ function FitnessPlan() {
     }, []);
 
     useEffect(() => {
-        fetchPlans(); // selectedDate가 변경될 때마다 fetchPlans 호출
+        fetchPlans();  // selectedDate가 변경될 때마다 계획을 다시 가져옴
     }, [selectedDate]);
 
+
+    // 실제 FitnessPlan.js 수정 코드
     const handleAddPlan = () => {
         if (newPlan) {
-            // selectedDate를 한국 시간(KST)으로 변환
             const kor = new Date(selectedDate);
-            kor.setHours(kor.getHours() + 9);  // 한국은 UTC보다 9시간 빠름
-            
-            // 날짜를 'YYYY-MM-DD' 형식으로 변환
-            const formattedDate = kor.toISOString().split('T')[0];  // 한국 시간으로 변환된 날짜 사용
-        
-            // user_id를 로그인한 사용자의 ID로 설정
-            const userId = "seoin";  // 실제 로그인한 사용자의 ID로 설정해야 함
-        
-            // 서버에 추가 요청
+            kor.setHours(kor.getHours() + 9); // 한국 시간으로 변환
+            const formattedDate = kor.toISOString().split('T')[0];
+
             fetch("http://223.194.154.149:5001/api/plan", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    date: formattedDate, // 한국 시간으로 변환된 날짜
+                    date: formattedDate,
                     text: newPlan,
                     completed: false,
-                    user_id: userId,
+                    userId: actualUserId, // userId를 서버에 함께 전송
                 }),
             })
-            .then((response) => response.json())
-            .then((data) => {
-                if (data.message === "운동 계획 추가 성공") {
-                    console.log("운동 계획 추가됨");
-
-                    // 마지막 선택된 날짜를 로컬 스토리지에 저장
-                    localStorage.setItem("selectedDate", formattedDate);
-
-                    // 페이지 새로 고침
-                    window.location.reload();  // 페이지 새로 고침을 통해 새로운 계획을 반영
-                }
-            })
-            .catch((error) => {
-                console.error("운동 계획 추가 요청 오류:", error);
-            });
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error("운동 계획 추가 실패");
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    if (data.message === "운동 계획 추가 성공") {
+                        console.log(`운동 계획 추가됨: ${data}`);
+                        localStorage.setItem("selectedDate", formattedDate);
+                        setNewPlan(""); // 입력 필드 초기화
+                        fetchPlans(); // 데이터 갱신
+                        console.log("넘기기 직전: " + actualUserId);
+                    }
+                })
+                .catch((error) => {
+                    console.error("운동 계획 추가 요청 오류:", error);
+                });
+        } else {
+            alert("운동 계획을 입력하세요!");
         }
     };
 
     const handleDeletePlan = (index) => {
-        const formattedDate = selectedDate.toLocaleDateString('ko-KR'); // 로컬 날짜 형식 사용
+        const formattedDate = selectedDate.toLocaleDateString('ko-KR');
         const planToDelete = plans[formattedDate][index];
 
-        // 서버에 삭제 요청
         fetch("http://223.194.154.149:5001/api/plan", {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ id: planToDelete.id }),
+            body: JSON.stringify({
+                id: planToDelete.id,
+                userId: actualUserId,
+            }),
         })
         .then((response) => {
             if (response.ok) {
@@ -131,11 +137,10 @@ function FitnessPlan() {
                         ...prevPlans,
                         [formattedDate]: updatedPlans,
                     };
-                    // 해당 날짜에 계획이 하나도 없으면 "해당 날짜에 등록된 운동 계획이 없습니다." 메시지 표시
                     if (updatedPlans.length === 0) {
-                        setNoPlansMessage(true);  // 메시지 표시
+                        setNoPlansMessage(true);
                     } else {
-                        setNoPlansMessage(false); // 메시지 숨김
+                        setNoPlansMessage(false);
                     }
                     return updatedPlansByDate;
                 });
@@ -149,11 +154,10 @@ function FitnessPlan() {
     };
 
     const handleToggleComplete = (index) => {
-        const formattedDate = selectedDate.toLocaleDateString('ko-KR'); // 로컬 날짜 형식 사용
+        const formattedDate = selectedDate.toLocaleDateString('ko-KR');
         const planToUpdate = plans[formattedDate][index];
         const updatedCompleted = !planToUpdate.completed;
 
-        // 서버에 상태 업데이트 요청
         fetch("http://223.194.154.149:5001/api/plan", {
             method: "PUT",
             headers: {
@@ -185,14 +189,11 @@ function FitnessPlan() {
     };
 
     const renderPlansForSelectedDate = () => {
-        const formattedDate = selectedDate.toLocaleDateString('ko-KR'); // 로컬 날짜 형식 사용
+        const formattedDate = selectedDate.toLocaleDateString('ko-KR');
         return plans[formattedDate] ? (
             <ul className="plan-list">
                 {plans[formattedDate].map((plan, index) => (
-                    <li
-                        key={plan.id}
-                        className={`plan-item ${plan.completed ? "completed" : ""}`}
-                    >
+                    <li key={plan.id} className={`plan-item ${plan.completed ? "completed" : ""}`}>
                         <input
                             type="checkbox"
                             checked={plan.completed}
@@ -200,12 +201,7 @@ function FitnessPlan() {
                             style={{ marginRight: "8px" }}
                         />
                         <span>{plan.text}</span>
-                        <button
-                            onClick={() => handleDeletePlan(index)}
-                            className="delete-button"
-                        >
-                            삭제
-                        </button>
+                        <button onClick={() => handleDeletePlan(index)} className="delete-button">삭제</button>
                     </li>
                 ))}
             </ul>
@@ -217,7 +213,7 @@ function FitnessPlan() {
     return (
         <div>
             <h2>운동 계획 관리</h2>
-
+            <h3>사용자: {actualUserId}</h3>  {/* 사용자 ID 확인차 표시 */}
             <input
                 type="text"
                 placeholder="운동 계획 입력"
@@ -243,7 +239,6 @@ function FitnessPlan() {
                 renderPlansForSelectedDate()
             )}
 
-            {/* 운동 추천 출력 */}
             <div className="notification-box">
                 <div className="icon">ℹ️</div>
                 <div>

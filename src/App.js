@@ -1,4 +1,3 @@
-// src/App.js
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
@@ -25,9 +24,16 @@ function App() {
                     {/* 운동기구별 상세정보 동적 라우팅 */}
                     <Route path="/info/:equipmentName" element={<FitnessEquipInfo />} />
                     
-                    {/* 기타 페이지 */}
+                    {/* 운동 계획 일정 페이지 */}
                     <Route path="/plan" element={<FitnessPlan />} />
+                    
+                    {/* userId가 포함된 URL로 운동 계획 페이지로 이동 */}
+                    <Route path="/plan/:userId" element={<FitnessPlan />} />
+
                     <Route path="/bmi" element={<BMICalculator />} />
+
+                    {/* userId가 포함된 URL로 운동 계획 페이지로 이동 */}
+                    <Route path="/bmi/:userId" element={<BMICalculator />} />
                 </Routes>
             </div>
         </Router>
