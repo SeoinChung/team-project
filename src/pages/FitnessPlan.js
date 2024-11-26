@@ -242,7 +242,7 @@ function FitnessPlan() {
             <div className="notification-box">
                 <div className="icon">ℹ️</div>
                 <div>
-                    <h4>추천 운동:</h4>
+                    <h4>오늘은 이런 운동 어떠세요?</h4>
                     <p>상체: {recommendedExercises.상체?.displayName}</p>
                     <p>하체: {recommendedExercises.하체?.displayName}</p>
                     <p>등: {recommendedExercises.등?.displayName}</p>
