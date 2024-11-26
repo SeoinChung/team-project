@@ -1,12 +1,13 @@
 /* 상세 박스 스타일 */
 .detail-box {
-    border: 1px solid #84c1de;
-    border-radius: 10px;
-    padding: 20px;
-    width: 600px;
-    margin: 0 auto;
-    text-align: center;
-}
+    padding: 20px; /* 안쪽 여백 */
+    max-width: 90%; /* 최대 너비 */
+    border: 1px solid #84c1de; /* 테두리 */
+    border-radius: 10px; /* 둥근 테두리 */
+    width: 600px; /* 고정 너비 */
+    margin: 0 auto; /* 중앙 정렬 */
+    text-align: center; /* 텍스트 가운데 정렬 */
+}    
 
 /* 제목 스타일 */
 .title {

@@ -25,7 +25,29 @@
 }
 
 .App-link {
-  color: #61dafb;
+  color: #6ddfff;
+}
+
+.nav-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px; /* 버튼 간격 */
+  margin: 20px 0;
+}
+
+.nav-button2 {
+  display: inline-block;
+  background-color: #0171c1; /* 버튼 배경색 */
+  color: white; /* 글자 색 */
+  padding: 10px 20px; /* 버튼 내부 여백 */
+  text-decoration: none; /* 링크 밑줄 제거 */
+  border-radius: 5px; /* 둥근 모서리 */
+  font-size: 16px; /* 글자 크기 */
+  transition: background-color 0.3s; /* 호버 시 색상 전환 */
+}
+
+.nav-button2:hover {
+  background-color: #45b0df; /* 호버 시 색상 */
 }
 
 @keyframes App-logo-spin {

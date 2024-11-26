@@ -6,16 +6,17 @@ import FitnessEquipInfo from './pages/FitnessEquipInfo';
 import FitnessPlan from './pages/FitnessPlan';
 import BMICalculator from './pages/BMICalculator';
 import Header from './components/Header';
+import './App.css'; // 스타일 파일 추가
 
 function App() {
     return (
         <Router>
             <div style={{ textAlign: 'center' }}>
                 <Header />
-                <nav>
-                    <Link to="/info">운동기구 목록</Link> | 
-                    <Link to="/plan">운동 계획 일정</Link> | 
-                    <Link to="/bmi">BMI 계산기</Link>
+                <nav className="nav-container">
+                    <Link to="/info" className="nav-button2">운동기구 목록</Link>
+                    <Link to="/plan" className="nav-button2">운동 계획 일정</Link>
+                    <Link to="/bmi" className="nav-button2">BMI 계산기</Link>
                 </nav>
                 <Routes>
                     {/* 운동기구 목록 */}
