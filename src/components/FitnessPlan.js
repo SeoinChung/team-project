@@ -9,7 +9,7 @@ function FitnessPlan() {
 
     // 서버에서 운동 계획을 가져오는 함수
     const fetchPlans = async () => {
-        const response = await fetch("http://localhost:5001/api/plan");
+        const response = await fetch("http://223.194.154.149:5001/api/plan");
         if (response.ok) {
             const data = await response.json();
             const plansByDate = data.reduce((acc, plan) => {
@@ -37,7 +37,7 @@ function FitnessPlan() {
             const formattedDate = selectedDate.toISOString().split('T')[0];
         
             // 서버에 추가 요청
-            fetch("http://localhost:5001/api/plan", {
+            fetch("http://223.194.154.149:5001/api/plan", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -79,7 +79,7 @@ function FitnessPlan() {
         const planToDelete = plans[formattedDate][index];
 
         // 서버에 삭제 요청
-        fetch("http://localhost:5001/api/plan", {
+        fetch("http://223.194.154.149:5001/api/plan", {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
@@ -109,7 +109,7 @@ function FitnessPlan() {
         const updatedCompleted = !planToUpdate.completed;
 
         // 서버에 상태 업데이트 요청
-        fetch("http://localhost:5001/api/plan", {
+        fetch("http://223.194.154.149:5001/api/plan", {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",

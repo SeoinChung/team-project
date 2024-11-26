@@ -31,7 +31,7 @@ function BMICalculator() {
             const newEntry = { date: formattedDate, weight: parseFloat(weight), userId };
         
             // API 호출을 통해 체중 데이터를 서버에 추가
-            fetch("http://localhost:5001/api/bmi", {
+            fetch("http://223.194.154.149:5001/api/bmi", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(newEntry),
@@ -56,7 +56,7 @@ function BMICalculator() {
     
     const updateWeightHistory = async () => {
         try {
-            const response = await axios.get("http://localhost:5001/api/bmi");
+            const response = await axios.get("http://223.194.154.149:5001/api/bmi");
             const data = response.data.map(entry => {
                 const utcTime = new Date(entry.date); // UTC로 저장된 시간
                 const korTime = new Date(utcTime);
@@ -87,7 +87,7 @@ function BMICalculator() {
             console.log("변환된 deleteDate:", deleteDate); // 변환된 deleteDate 출력
     
             // 삭제 요청 보내기
-            const response = await axios.delete("http://localhost:5001/api/bmi", {
+            const response = await axios.delete("http://223.194.154.149:5001/api/bmi", {
                 data: { date: deleteDate, weight, userId },  // 데이터를 data 속성에 넣어야 함
             });
     
