@@ -35,7 +35,7 @@ function FitnessPlan() {
 
     // 서버에서 운동 계획 가져오기
     const fetchPlans = async () => {
-        const response = await fetch("http://localhost:5001/api/plan");
+        const response = await fetch("http://223.194.154.149:5001/api/plan");
         if (response.ok) {
             const data = await response.json();
             const plansByDate = data.reduce((acc, plan) => {
