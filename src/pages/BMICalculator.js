@@ -192,7 +192,7 @@ function BMICalculator() {
                     }}
                 >
                     <div style={getRangeStyle(0, 18.5)}>
-                        저체중 (0 - 18.5)
+                        저체중(0 - 18.5)
                         <div style={getArrowStyle(0, 18.5)}>&#8595;</div>
                     </div>
                     <div style={getRangeStyle(18.5, 23)}>

@@ -90,7 +90,7 @@
 
 /* 운동 계획 입력 필드 스타일 */
 .input-plan {
-    width: 14%;
+    width: 26%;
     padding: 10px;
     margin: 15px 10px 15px 0;
     border: 1px solid #ddd;
@@ -100,7 +100,7 @@
 
 /* 운동 계획 추가 버튼 스타일 */
 .add-button {
-    width: 3%; 
+    width: 10%;
     aspect-ratio: 3 / 1; 
     padding: 4px;
     background-color:#0171c1;
@@ -110,7 +110,7 @@
     font-size: 14px;
     cursor: pointer;
     min-width: 45px; 
-    min-height: 35px; 
+    min-height: 40px; 
 }
 
 .add-button:hover {
