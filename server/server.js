@@ -2,21 +2,25 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const mysql = require("mysql2");
-
+const path = require('path');
 const app = express();
-const PORT = 5001;
+
+// 환경 변수 로드
+
+const PORT = process.env.PORT || 5001; // 포트는 환경 변수에서 가져옴
 
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.json());  // 이 부분이 없으면 body를 제대로 처리할 수 없음
 
 // MySQL 데이터베이스 연결 설정
+// 환경 변수로 MySQL 연결 정보 설정
 const db = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "seoin0713@", // MySQL 비밀번호
-    database: "fitness_app", // 데이터베이스 이름
-});
+    host: process.env.DB_HOST || "localhost",
+    user: process.env.DB_USER || "root",
+    password: process.env.DB_PASSWORD || "seoin0713@",
+    database: process.env.DB_NAME || "fitness_app",
+  });
 
 db.connect((err) => {
     if (err) {
@@ -26,9 +30,24 @@ db.connect((err) => {
     console.log("MySQL 연결 성공!");
 });
 
+// 개발 환경과 프로덕션 환경 구분
+if (process.env.NODE_ENV === "production") {
+    // 프로덕션: 빌드된 정적 파일 서빙
+    app.use(express.static(path.join(__dirname, "build")));
+
+    app.get("*", (req, res) => {
+        res.sendFile(path.join(__dirname, "build", "index.html"));
+    });
+} else {
+    // 개발 환경: 개발 중인 React 서버를 분리하여 API만 제공
+    app.get("/", (req, res) => {
+        res.send("API 서버가 실행 중입니다. (개발 환경)");
+    });
+}
+
 // 사용자 확인 및 생성 함수
 function ensureUserExists(userId, callback) {
-    const actualUserId = userId || "seoin0713@"; // userId가 없으면 default_name 사용
+    const actualUserId = userId || "default_name"; // userId가 없으면 default_name 사용
 
     // 사용자 존재 여부 확인
     db.query('SELECT * FROM users WHERE id = ?', [actualUserId], (err, results) => {
@@ -56,8 +75,8 @@ app.get("/api/plan", (req, res) => {
     const userId = req.query.userId;  
     const actualUserId = userId || "default_name";
 
-    console.log("userId from query:", userId);  // 디버깅 로그 추가
-    console.log("actualUserId used:", actualUserId);
+    console.log("plan userId from query:", userId);  // 디버깅 로그 추가
+    console.log("plan actualUserId used:", actualUserId);
 
     ensureUserExists(actualUserId, (err) => {
         if (err) {
@@ -77,10 +96,10 @@ app.get("/api/plan", (req, res) => {
     });
 });
 
-// 운동 계획 추가 API 엔드포인트
 app.post("/api/plan", (req, res) => {
     const { date, text, completed = false, userId } = req.body;  // userId도 받도록 수정
-    const actualUserId = userId || "default_name"; // userId가 없으면 default_name 사용
+    console.log("POST 요청의 body 확인: " + req.body);  // POST 요청의 body 확인
+    const actualUserId = userId; // userId가 없으면 default_name 사용
 
     // 사용자 존재 확인 후 운동 계획 추가
     ensureUserExists(actualUserId, (err) => {
@@ -93,18 +112,24 @@ app.post("/api/plan", (req, res) => {
         db.query(query, [date, text, completed, actualUserId], (err, result) => {
             if (err) {
                 console.error("운동 계획 추가 실패:", err);
-                res.status(500).json({ error: "운동 계획 추가 실패" });
-                return;
+                return res.status(500).json({ error: "운동 계획 추가 실패" });
             }
+
+            console.log("운동 계획 추가 성공:", result);
             res.json({ message: "운동 계획 추가 성공", id: result.insertId });
         });
     });
+
     console.log("ensureUserExists 호출됨: actualUserId =", actualUserId);
 });
 
 app.delete("/api/plan", (req, res) => {
-    const { id, userId } = req.body;  // userId도 받도록 수정
-    const actualUserId = userId || "default_name"; // userId가 없으면 default_name 사용
+    const { date, weight, userId } = req.body;  // userId도 받도록 수정
+    const actualUserId = userId; // userId가 없으면 default_name 사용
+
+    if (!userId) {
+        return res.status(400).json({ error: "userId가 필요합니다." });
+    }
 
     // 사용자 존재 확인 후 운동 계획 삭제
     ensureUserExists(actualUserId, (err) => {
@@ -113,14 +138,27 @@ app.delete("/api/plan", (req, res) => {
             return res.status(500).json({ error: "사용자 확인 또는 생성 실패" });
         }
 
-        const query = "DELETE FROM fitness_plans WHERE id = ? AND user_id = ?";
-        db.query(query, [id, actualUserId], (err, result) => {
+        // 날짜 포맷팅 및 삭제 처리
+        const formattedDate = new Date(date);
+        formattedDate.setUTCHours(formattedDate.getUTCHours() - 9);
+        
+        const year = formattedDate.getUTCFullYear();
+        const month = formattedDate.getUTCMonth() + 1;
+        const day = formattedDate.getUTCDate();
+        const hour = formattedDate.getUTCHours();
+        const minute = formattedDate.getUTCMinutes();
+        const second = formattedDate.getUTCSeconds();
+        
+        const deleteQuery = `DELETE FROM weight_records WHERE user_id = ? AND DATE_FORMAT(date, "%Y-%m-%d %H:%i:%s") = ?`;
+        const dateToDelete = `${year}-${month}-${day} ${hour}:${minute}:${second}`;
+                
+        db.query(deleteQuery, [actualUserId, dateToDelete], (err, result) => {
             if (err) {
-                console.error("운동 계획 삭제 실패:", err);
-                res.status(500).json({ error: "운동 계획 삭제 실패" });
+                console.error("체중 데이터 삭제 실패:", err);
+                res.status(500).json({ error: "체중 데이터 삭제 실패" });
                 return;
             }
-            res.json({ message: "운동 계획 삭제 성공" });
+            res.json({ success: true, message: "체중 데이터 삭제 성공" });
         });
     });
     console.log("ensureUserExists 호출됨: actualUserId =", actualUserId);
@@ -151,8 +189,11 @@ app.put("/api/plan", (req, res) => {
 
 // 체중 기록 API 엔드포인트
 app.get("/api/bmi", (req, res) => {
-    const userId = req.query.userId;  // 클라이언트에서 userId를 받아옴
-    const actualUserId = userId || "default_name"; // userId가 없으면 default_name 사용
+    const { userId } = req.query;
+    const actualUserId = userId; // userId가 없으면 default_name 사용
+
+    console.log("bmi userId from query:", userId);  // 디버깅 로그 추가
+    console.log("bmi actualUserId used:", actualUserId);
 
     // 사용자 존재 확인 후 체중 기록 조회
     ensureUserExists(actualUserId, (err) => {
@@ -165,17 +206,17 @@ app.get("/api/bmi", (req, res) => {
         db.query(query, [actualUserId], (err, results) => {
             if (err) {
                 console.error("체중 데이터 조회 실패:", err);
-                res.status(500).json({ error: "체중 데이터 조회 실패" });
-                return;
+                return res.status(500).json({ error: "체중 데이터 조회 실패" });
             }
             res.json(results);
         });
     });
 });
 
+//추가 API
 app.post("/api/bmi", (req, res) => {
     const { date, weight, userId } = req.body;  // userId도 받도록 수정
-    const actualUserId = userId || "default_name"; // userId가 없으면 default_name 사용
+    const actualUserId = userId; // userId가 없으면 default_name 사용
 
     // 사용자 존재 확인 후 체중 기록 추가
     ensureUserExists(actualUserId, (err) => {
@@ -188,8 +229,7 @@ app.post("/api/bmi", (req, res) => {
         db.query(query, [date, weight, actualUserId], (err, result) => {
             if (err) {
                 console.error("체중 데이터 추가 실패:", err);
-                res.status(500).json({ success: false, message: "체중 데이터 추가 실패" });
-                return;
+                return res.status(500).json({ success: false, message: "체중 데이터 추가 실패" });
             }
             res.json({ success: true, message: "체중 데이터 추가 성공", id: result.insertId });
         });
@@ -199,7 +239,8 @@ app.post("/api/bmi", (req, res) => {
 // 삭제 처리 API
 app.delete("/api/bmi", (req, res) => {
     const { date, weight, userId } = req.body;
-    const actualUserId = userId || "default_name"; // userId가 없으면 default_name 사용
+    const actualUserId = userId; // userId가 없으면 default_name 사용
+    console.log("클라이언트에서 받은 삭제 요청 데이터:", req.body);  // 클라이언트에서 받은 데이터 출력
 
     if (!userId) {
         return res.status(400).json({ error: "userId가 필요합니다." });
@@ -214,7 +255,7 @@ app.delete("/api/bmi", (req, res) => {
 
         // 날짜 포맷팅 및 삭제 처리
         const formattedDate = new Date(date);
-        formattedDate.setUTCHours(formattedDate.getUTCHours() - 9);
+        formattedDate.setUTCHours(formattedDate.getUTCHours() + 9);  // 한국 시간으로 변환
 
         const year = formattedDate.getUTCFullYear();
         const month = formattedDate.getUTCMonth() + 1;
@@ -223,14 +264,13 @@ app.delete("/api/bmi", (req, res) => {
         const minute = formattedDate.getUTCMinutes();
         const second = formattedDate.getUTCSeconds();
 
-        const deleteQuery = `
-            DELETE FROM weight_records
-            WHERE user_id = ?
-            AND DATE_FORMAT(date, "%Y-%m-%d %H:%i:%s") = ?
-        `;
+        // 날짜를 'YYYY-MM-DD HH:MM:SS' 형식으로 구성
+        const deleteDate = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day} ${hour < 10 ? '0' + hour : hour}:${minute < 10 ? '0' + minute : minute}:${second < 10 ? '0' + second : second}`;
+
+        const deleteQuery = `DELETE FROM weight_records WHERE user_id = ? AND weight = ? AND DATE_FORMAT(date, "%Y-%m-%d %H:%i:%s") = ?`;
         const dateToDelete = `${year}-${month}-${day} ${hour}:${minute}:${second}`;
         
-        db.query(deleteQuery, [actualUserId, dateToDelete], (err, result) => {
+        db.query(deleteQuery, [actualUserId, weight, dateToDelete], (err, result) => {
             if (err) {
                 console.error("체중 데이터 삭제 실패:", err);
                 res.status(500).json({ error: "체중 데이터 삭제 실패" });

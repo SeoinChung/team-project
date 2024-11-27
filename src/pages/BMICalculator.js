@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
-import axios from "axios";
+import { useSearchParams } from 'react-router-dom';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -10,99 +10,156 @@ function BMICalculator() {
     const [height, setHeight] = useState("");
     const [bmi, setBmi] = useState(null);
     const [weightHistory, setWeightHistory] = useState([]);
+    const [searchParams] = useSearchParams();
+    const [actualUserId, setActualUserId] = useState(null);
+    const [noWeightMessage, setNoWeightMessage] = useState(false);
 
-    const userId = 'seoin'; // 로그인된 사용자 ID
+    const userId = searchParams.get('userId') || 'default_name';
 
     useEffect(() => {
-        updateWeightHistory();  // 컴포넌트가 처음 렌더링될 때 데이터 가져오기
-    }, []);
-    
-    const calculateBMI = () => {
-        if (weight && height) {
-            const heightInMeters = height / 100;
-            const bmiValue = weight / (heightInMeters * heightInMeters);
-            setBmi(parseFloat(bmiValue.toFixed(2)));
-        
-            const today = new Date();
-            today.setHours(today.getHours() + 9); // 한국 시간으로 변환
-        
-            const formattedDate = today.toISOString().slice(0, 19).replace('T', ' '); // 'YYYY-MM-DD HH:MM:SS' 형식
-        
-            const newEntry = { date: formattedDate, weight: parseFloat(weight), userId };
-        
-            // API 호출을 통해 체중 데이터를 서버에 추가
-            fetch("http://223.194.154.149:5001/api/bmi", {
+        setActualUserId(userId);  // URL에서 userId를 설정
+        console.log('URL에서 받아온 userId 값:', userId);
+    }, [userId]);
+
+    useEffect(() => {
+        if (actualUserId) {
+            console.log("userId가 actualUserId에 잘 저장됨.");
+            updateWeightHistory();  // 체중 기록을 업데이트
+        }
+    }, [actualUserId]);
+
+    useEffect(() => {
+        if (weightHistory.length === 0) {
+            setNoWeightMessage(true);  // 체중 기록이 없을 경우
+        } else {
+            setNoWeightMessage(false);
+        }
+    }, [weightHistory]);
+
+    const calculateBMI = async () => {
+        if (!weight || !height) {
+            setNoWeightMessage(true);  // 빈 값 경고 메시지
+            console.error('체중과 키를 모두 입력해주세요!');
+            return;
+        }
+
+        const heightInMeters = height / 100;
+        const bmiValue = weight / (heightInMeters * heightInMeters);
+        setBmi(parseFloat(bmiValue.toFixed(2)));
+
+        const today = new Date();
+        today.setHours(today.getHours() + 9);  // 한국 시간으로 변환
+        const formattedDate = today.toISOString().slice(0, 19).replace('T', ' ');
+
+        try {
+            if (!actualUserId) {
+                console.error('User ID is missing!');
+                return;
+            }
+
+            const response = await fetch(`http://223.194.154.149:5001/api/bmi`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(newEntry),
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    console.log("체중 데이터 추가 성공!");
-                    updateWeightHistory();  // 새로운 체중 데이터 반영
-                    setWeight("");  // 입력값 초기화
-                    setBmi(null);    // BMI 상태 초기화
-                    window.location.reload();
-                } else {
-                    console.error("체중 데이터 추가 실패:", data.message);
-                }
-            })
-            .catch(error => {
-                console.error("체중 데이터 추가 중 오류 발생:", error);
+                body: JSON.stringify({
+                    date: formattedDate,
+                    weight: weight,
+                    userId: actualUserId,
+                }),
             });
+
+            const data = await response.json();
+
+            if (data.success) {
+                console.log("체중 데이터 추가 성공!");
+                updateWeightHistory();
+                setWeight("");  // 입력값 초기화
+                setBmi(null);    // BMI 상태 초기화
+            } else {
+                console.error("체중 데이터 추가 실패:", data.message);
+            }
+        } catch (error) {
+            console.error("체중 데이터 추가 중 오류 발생:", error);
         }
-    };    
-    
+    };
+
     const updateWeightHistory = async () => {
         try {
-            const response = await axios.get("http://223.194.154.149:5001/api/bmi");
-            const data = response.data.map(entry => {
-                const utcTime = new Date(entry.date); // UTC로 저장된 시간
+            const response = await fetch(`http://223.194.154.149:5001/api/bmi?userId=${actualUserId}`);
+            if (!response.ok) {
+                throw new Error('체중 데이터 가져오기 실패');
+            }
+            const data = await response.json();
+            const formattedData = data.map(entry => {
+                const utcTime = new Date(entry.date);  // UTC로 저장된 시간
                 const korTime = new Date(utcTime);
                 korTime.setHours(korTime.getHours() + 9); // 한국 시간으로 변환
-    
+
                 return {
                     ...entry,
-                    date: korTime.toISOString(),  // 'YYYY-MM-DDTHH:MM:SS.sssZ' 형식
+                    date: korTime.toISOString(),
                 };
             });
-            setWeightHistory(data);  // 가져온 체중 데이터를 상태에 저장
+            setWeightHistory(formattedData);
         } catch (error) {
             console.error("체중 데이터 가져오기 실패:", error);
         }
     };
-    
+
     const handleDeleteWeight = async (record) => {
         const { date, weight } = record;
-    
         try {
-            // ISO 형식의 날짜를 받아서 한국 시간으로 변환
-            const formattedDate = new Date(date);  // ISO 형식의 날짜
-            formattedDate.setHours(formattedDate.getHours() + 9);  // 한국 시간으로 변환
-    
-            // 'YYYY-MM-DD HH:MM:SS' 형식으로 변환
+            const formattedDate = new Date(date);
+            formattedDate.setHours(formattedDate.getHours());  // 한국 시간으로 변환
+
             const deleteDate = formattedDate.toISOString().slice(0, 19).replace('T', ' ');
-    
-            console.log("변환된 deleteDate:", deleteDate); // 변환된 deleteDate 출력
-    
-            // 삭제 요청 보내기
-            const response = await axios.delete("http://223.194.154.149:5001/api/bmi", {
-                data: { date: deleteDate, weight, userId },  // 데이터를 data 속성에 넣어야 함
+
+            const response = await fetch(`http://223.194.154.149:5001/api/bmi`, {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    date: deleteDate,
+                    weight: weight,
+                    userId: actualUserId,
+                }),
             });
-    
-            const data = response.data;
-            if (data.success) {
-                console.log(data.message); // 삭제 성공 메시지 출력
-                setWeightHistory(prevHistory => prevHistory.filter(entry => entry.date !== deleteDate));
-                window.location.reload();  // 강제로 새로고침
+
+            if (response.ok) {
+                console.log("체중 데이터 삭제 성공!");
+                const updatedHistory = weightHistory.filter(item => item.date !== record.date);
+                setWeightHistory(updatedHistory);
             } else {
-                console.error("체중 데이터 삭제 실패:", data.message);
+                console.error("체중 데이터 삭제 실패");
             }
         } catch (error) {
-            console.error("체중 데이터 삭제 실패:", error.response?.data || error.message);
+            console.error("체중 데이터 삭제 중 오류 발생:", error);
         }
-    };    
+    };
+
+    const handleAddWeight = async () => {
+        if (weight && height) {
+            calculateBMI();
+            setWeight("");  // 입력값 초기화
+        } else {
+            alert("체중과 키를 모두 입력해주세요.");
+        }
+    };
+
+    const getArrowStyle = (min, max) => {
+        const inRange = bmi !== null && bmi >= min && bmi < max;
+        if (inRange) {
+            return {
+                position: "absolute",
+                top: "-120px",
+                left: "50%",
+                transform: "translateX(-50%)",
+                fontWeight: "bold",
+                fontSize: "120px",
+                color: "red",
+                zIndex: 10,
+            };
+        }
+        return { display: "none" };
+    };
 
     const getRangeStyle = (min, max) => {
         const inRange = bmi !== null && bmi >= min && bmi < max;
@@ -128,23 +185,6 @@ function BMICalculator() {
         };
     };
 
-    const getArrowStyle = (min, max) => {
-        const inRange = bmi !== null && bmi >= min && bmi < max;
-        if (inRange) {
-            return {
-                position: "absolute",
-                top: "-120px",
-                left: "50%",
-                transform: "translateX(-50%)",
-                fontWeight: "bold",
-                fontSize: "120px",
-                color: "red",
-                zIndex: 10,
-            };
-        }
-        return { display: "none" };
-    };
-
     const chartData = {
         labels: weightHistory.map(entry => entry.date),
         datasets: [
@@ -161,6 +201,7 @@ function BMICalculator() {
     return (
         <div style={{ padding: "20px" }}>
             <h2>BMI 계산기</h2>
+            <h3>사용자: {actualUserId}</h3>  {/* 사용자 ID 확인차 표시 */}
             <input
                 type="number"
                 placeholder="몸무게 (kg)"
@@ -175,7 +216,7 @@ function BMICalculator() {
                 onChange={(e) => setHeight(e.target.value)}
                 style={{ marginRight: "10px" }}
             />
-            <button onClick={calculateBMI}>계산</button>
+            <button onClick={() => { console.log("Button clicked!"); calculateBMI(); }}>계산</button>
             {bmi && <p>당신의 BMI: {bmi}</p>}
 
             {/* BMI 상태 그래프 복원 */}
@@ -210,22 +251,23 @@ function BMICalculator() {
                 </div>
             </div>
 
-            <div style={{ marginTop: "20px" }}>
-                <h3>몸무게 변화 추이</h3>
+            {/* 그래프 */}
+            <div style={{ width: "80%", marginTop: "30px" }}>
                 <Line data={chartData} />
             </div>
-
-            <div style={{ marginTop: "20px" }}>
+            <div>
                 <h3>체중 기록</h3>
                 <ul>
-                    {weightHistory.map((record, index) => (
-                        <li key={index}>
-                            {record.date} - {record.weight}kg
+                    {weightHistory.map(record => (
+                        <li key={record.date}>
+                            {record.date} - {record.weight}kg{" "}
                             <button onClick={() => handleDeleteWeight(record)}>삭제</button>
                         </li>
                     ))}
                 </ul>
             </div>
+            {/* 체중 기록 */}
+            {noWeightMessage && <p>기록된 체중 데이터가 없습니다.</p>}
         </div>
     );
 }

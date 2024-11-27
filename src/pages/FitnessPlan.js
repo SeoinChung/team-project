@@ -8,7 +8,6 @@ import { useSearchParams } from 'react-router-dom';
 function FitnessPlan() {
     const [searchParams] = useSearchParams();  
     const actualUserId = searchParams.get('userId') || 'default_name'; // URL에서 바로 userId를 받아 설정
-    console.log(actualUserId);  // 유저 ID가 제대로 들어오는지 확인하기 위해 출력
     const [plans, setPlans] = useState({});
     const [newPlan, setNewPlan] = useState("");
     const [selectedDate, setSelectedDate] = useState(new Date());
