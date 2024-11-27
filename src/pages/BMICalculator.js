@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Line } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { useSearchParams } from 'react-router-dom';
-
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 function BMICalculator() {
     const [weight, setWeight] = useState("");
@@ -145,17 +142,12 @@ function BMICalculator() {
         }
     };
 
-    const chartData = {
-        labels: weightHistory.map(entry => entry.date),
-        datasets: [
-            {
-                label: '몸무게 변화 추이',
-                data: weightHistory.map(entry => entry.weight),
-                fill: false,
-                borderColor: 'blue',
-                tension: 0.1,
-            },
-        ],
+    const getYAxisDomain = () => {
+        if (weightHistory.length === 0) return [0, 'auto'];
+        const weights = weightHistory.map(entry => entry.weight);
+        const minWeight = Math.min(...weights);
+        const maxWeight = Math.max(...weights);
+        return [minWeight - 3, maxWeight + 3];
     };
 
     return (
@@ -188,8 +180,38 @@ function BMICalculator() {
 
             {/* 조건에 따라 그래프 또는 체중 기록 표시 */}
             {showGraph ? (
-                <div style={{ width: "80%", marginTop: "30px" }}>
-                    <Line data={chartData} />
+                <div style={{ width: "100%", height: "300px", marginTop: "30px" }}>
+                    <ResponsiveContainer width="100%" height="100%">
+                        <LineChart
+                            data={weightHistory}
+                            margin={{
+                                top: 5,
+                                right: 30,
+                                left: 20,
+                                bottom: 5,
+                            }}
+                        >
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="date" hide={true} />
+                            <YAxis domain={getYAxisDomain()} />
+                            <Tooltip
+                                cursor={{ strokeDasharray: '3 3' }}
+                                content={({ active, payload, label }) =>
+                                    active && payload && payload.length ? (
+                                        <div style={{ backgroundColor: 'white', padding: '5px', border: '1px solid #ccc' }}>
+                                            <p>{label.split('T')[0]} {label.split('T')[1]}</p>
+                                            <p>체중: {payload[0].value} kg</p> {/* 체중 값 추가 */}
+                                        </div>
+                                    ) : null
+                                }
+                                isAnimationActive={false}
+                                trigger="hover" // 터치나 마우스 오버 중에만 툴팁을 보이게 함
+                            />
+
+                            <Legend />
+                            <Line type="monotone" dataKey="weight" stroke="#007BFF" activeDot={{ r: 8 }} />
+                        </LineChart>
+                    </ResponsiveContainer>
                 </div>
             ) : (
                 <div>

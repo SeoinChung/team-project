@@ -13,3 +13,35 @@
 .bmi-arrow.visible {
     display: block;
 }
+
+.bmi-arrow {
+    position: absolute;
+    top: -120px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-weight: bold;
+    font-size: 120px;
+    color: red;
+    z-index: 10;
+    display: none;
+}
+
+.bmi-arrow.visible {
+    display: block;
+}
+
+@media (max-width: 768px) {
+    .responsive-container {
+        width: 100% !important;
+        height: 300px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .responsive-container {
+        width: 100% !important;
+        height: 350px !important;
+    }
+}
+
+
