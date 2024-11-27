@@ -13,6 +13,7 @@ function BMICalculator() {
     const [searchParams] = useSearchParams();
     const [actualUserId, setActualUserId] = useState(null);
     const [noWeightMessage, setNoWeightMessage] = useState(false);
+    const [showGraph, setShowGraph] = useState(true); // 그래프와 목록 전환 상태
 
     const userId = searchParams.get('userId') || 'default_name';
 
@@ -144,47 +145,6 @@ function BMICalculator() {
         }
     };
 
-    const getArrowStyle = (min, max) => {
-        const inRange = bmi !== null && bmi >= min && bmi < max;
-        if (inRange) {
-            return {
-                position: "absolute",
-                top: "-120px",
-                left: "50%",
-                transform: "translateX(-50%)",
-                fontWeight: "bold",
-                fontSize: "120px",
-                color: "red",
-                zIndex: 10,
-            };
-        }
-        return { display: "none" };
-    };
-
-    const getRangeStyle = (min, max) => {
-        const inRange = bmi !== null && bmi >= min && bmi < max;
-        let color;
-        if (min === 0) color = "#a3d8f4";
-        else if (min === 18.5) color = "#b8e5b5";
-        else if (min === 23) color = "#f7e0a1";
-        else color = "#f9c0c0";
-
-        return {
-            backgroundColor: color,
-            color: "#333",
-            fontWeight: "bold",
-            padding: "10px 0",
-            flexGrow: 1,
-            textAlign: "center",
-            position: "relative",
-            ...(inRange && {
-                border: "3px solid black",
-                borderRadius: "3px",
-                boxShadow: "0 0 10px rgba(0, 0, 0, 0.2)",
-            }),
-        };
-    };
-
     const chartData = {
         labels: weightHistory.map(entry => entry.date),
         datasets: [
@@ -219,55 +179,32 @@ function BMICalculator() {
             <button onClick={() => { console.log("Button clicked!"); calculateBMI(); }}>계산</button>
             {bmi && <p>당신의 BMI: {bmi}</p>}
 
-            {/* BMI 상태 그래프 복원 */}
+            {/* 그래프와 체중 기록을 전환하는 버튼 */}
             <div style={{ marginTop: "20px" }}>
-                <h3>BMI 범위</h3>
-                <div
-                    style={{
-                        display: "flex",
-                        width: "100%",
-                        borderRadius: "8px",
-                        overflow: "hidden",
-                        border: "1px solid #ddd",
-                        position: "relative",
-                    }}
-                >
-                    <div style={getRangeStyle(0, 18.5)}>
-                        저체중(0 - 18.5)
-                        <div style={getArrowStyle(0, 18.5)}>&#8595;</div>
-                    </div>
-                    <div style={getRangeStyle(18.5, 23)}>
-                        정상 (18.5 - 23)
-                        <div style={getArrowStyle(18.5, 23)}>&#8595;</div>
-                    </div>
-                    <div style={getRangeStyle(23, 25)}>
-                        과체중 (23 - 25)
-                        <div style={getArrowStyle(23, 25)}>&#8595;</div>
-                    </div>
-                    <div style={getRangeStyle(25, Infinity)}>
-                        비만 (25 이상)
-                        <div style={getArrowStyle(25, Infinity)}>&#8595;</div>
-                    </div>
-                </div>
+                <button onClick={() => setShowGraph(!showGraph)}>
+                    {showGraph ? "체중 기록 보기" : "체중 기록 그래프 보기"}
+                </button>
             </div>
 
-            {/* 그래프 */}
-            <div style={{ width: "80%", marginTop: "30px" }}>
-                <Line data={chartData} />
-            </div>
-            <div>
-                <h3>체중 기록</h3>
-                <ul>
-                    {weightHistory.map(record => (
-                        <li key={record.date}>
-                            {record.date} - {record.weight}kg{" "}
-                            <button onClick={() => handleDeleteWeight(record)}>삭제</button>
-                        </li>
-                    ))}
-                </ul>
-            </div>
-            {/* 체중 기록 */}
-            {noWeightMessage && <p>기록된 체중 데이터가 없습니다.</p>}
+            {/* 조건에 따라 그래프 또는 체중 기록 표시 */}
+            {showGraph ? (
+                <div style={{ width: "80%", marginTop: "30px" }}>
+                    <Line data={chartData} />
+                </div>
+            ) : (
+                <div>
+                    <h3>체중 기록</h3>
+                    <ul>
+                        {weightHistory.map(record => (
+                            <li key={record.date}>
+                                {record.date} - {record.weight}kg{" "}
+                                <button onClick={() => handleDeleteWeight(record)}>삭제</button>
+                            </li>
+                        ))}
+                    </ul>
+                    {noWeightMessage && <p>기록된 체중 데이터가 없습니다.</p>}
+                </div>
+            )}
         </div>
     );
 }
