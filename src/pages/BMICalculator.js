@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { useSearchParams } from 'react-router-dom';
 
+const API_URL = process.env.NODE_ENV === 'production'
+  ? process.env.REACT_APP_API_URL
+  : 'http://localhost:5001/api';
+
 function BMICalculator() {
     const [weight, setWeight] = useState("");
     const [height, setHeight] = useState("");
@@ -55,7 +59,7 @@ function BMICalculator() {
                 return;
             }
 
-            const response = await fetch(`https://223.194.154.149:5001/api/bmi`, {
+            const response = await fetch(`${API_URL}/bmi`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -82,7 +86,7 @@ function BMICalculator() {
 
     const updateWeightHistory = async () => {
         try {
-            const response = await fetch(`https://223.194.154.149:5001/api/bmi?userId=${actualUserId}`);
+            const response = await fetch(`${API_URL}/bmi?userId=${actualUserId}`);
             if (!response.ok) {
                 throw new Error('체중 데이터 가져오기 실패');
             }
@@ -111,7 +115,7 @@ function BMICalculator() {
 
             const deleteDate = formattedDate.toISOString().slice(0, 19).replace('T', ' ');
 
-            const response = await fetch(`https://223.194.154.149:5001/api/bmi`, {
+            const response = await fetch(`${API_URL}/bmi`, {
                 method: "DELETE",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({

@@ -5,6 +5,10 @@ import './FitnessPlan.css';
 import { equipmentDetails } from './FitnessEquipData';
 import { useSearchParams } from 'react-router-dom';
 
+const API_URL = process.env.NODE_ENV === 'production'
+  ? process.env.REACT_APP_API_URL
+  : 'http://localhost:5001/api';
+
 function FitnessPlan() {
     const [searchParams] = useSearchParams();  
     const actualUserId = searchParams.get('userId') || 'default_name'; // URL에서 바로 userId를 받아 설정
@@ -38,7 +42,7 @@ function FitnessPlan() {
 
     const fetchPlans = async () => {
         try {
-            const response = await fetch(`http://223.194.154.149:5001/api/plan?userId=${actualUserId}`);
+            const response = await fetch(`${API_URL}/plan?userId=${actualUserId}`);
             if (!response.ok) {
                 throw new Error(`Error: ${response.status} - ${response.statusText}`);
             }
@@ -78,7 +82,7 @@ function FitnessPlan() {
             kor.setHours(kor.getHours() + 9); // 한국 시간으로 변환
             const formattedDate = kor.toISOString().split('T')[0];
 
-            fetch("http://223.194.154.149:5001/api/plan", {
+            fetch(`${API_URL}/plan`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -117,7 +121,7 @@ function FitnessPlan() {
         const formattedDate = selectedDate.toLocaleDateString('ko-KR');
         const planToDelete = plans[formattedDate][index];
 
-        fetch("http://223.194.154.149:5001/api/plan", {
+        fetch(`${API_URL}/plan`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
@@ -157,7 +161,7 @@ function FitnessPlan() {
         const planToUpdate = plans[formattedDate][index];
         const updatedCompleted = !planToUpdate.completed;
 
-        fetch("http://223.194.154.149:5001/api/plan", {
+        fetch(`${API_URL}/plan"`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
