@@ -27,7 +27,7 @@ export const equipmentDetails = [
                 videoLink: "https://youtube.com/shorts/E7aOkectaw4?si=2ZecPWUdo8Z2IhPg"
             }
         ],
-        images: "/images/lat-pull-down.jpeg"
+        images: process.env.PUBLIC_URL + "/images/lat-pull-down.jpeg"
     },
     { name: "cable-arm-pulldown",
         displayName: "케이블 암 풀 다운",
@@ -57,7 +57,7 @@ export const equipmentDetails = [
                 videoLink: "https://youtube.com/shorts/cTckQ2sXQPM?si=or77aF2bP3Fg28TN"
             }
         ],
-        images: "/images/cable-arm-pulldown.jpeg"
+        images: process.env.PUBLIC_URL + "/images/cable-arm-pulldown.jpeg"
     },
     { 
         displayName: "체스트 프레스",
@@ -88,7 +88,7 @@ export const equipmentDetails = [
                 videoLink: "https://youtube.com/shorts/AKzdQPAEGMQ?si=Z24coSqSdbYl2V6i"
             }
         ],
-        images: "/images/chest-press.jpeg"
+        images: process.env.PUBLIC_URL + "/images/chest-press.jpeg"
     },
     { 
         displayName: "백 익스텐션",
@@ -119,7 +119,7 @@ export const equipmentDetails = [
                 videoLink: "https://youtube.com/shorts/j8jm32Ej1Hk?si=BEQmSqX1BMa4tW-T"
             }
         ],
-        images: "/images/back-extension.jpeg"
+        images: process.env.PUBLIC_URL + "/images/back-extension.jpeg"
     },
     { 
         displayName: "리버스 하이퍼(백) 익스텐션",
@@ -150,7 +150,7 @@ export const equipmentDetails = [
                 videoLink: "https://youtube.com/shorts/fJtfxLTyml0?si=_cMBPIZdM-xRqD3K"
             }
         ],
-        images: "/images/reverse-hyper-extension.jpeg"
+        images: process.env.PUBLIC_URL + "/images/reverse-hyper-extension.jpeg"
     },
     { 
         displayName: "치닝디핑(치닝)",
@@ -181,7 +181,7 @@ export const equipmentDetails = [
                 videoLink: "https://youtube.com/shorts/T-EZHtEx8Jw?si=ZEmZR1aFsimt-iHs"
             }
         ],
-        images: "/images/chinning-dipping1.jpeg"
+        images: process.env.PUBLIC_URL + "/images/chinning-dipping1.jpeg"
     },
     { 
         displayName: "치닝디핑(디핑)",
@@ -212,7 +212,7 @@ export const equipmentDetails = [
                 videoLink: "https://youtube.com/shorts/YxNDfXvwI08?si=YJ5BS5qsJp6TVCOL"
             }
         ],
-        images: "/images/chinning_dipping2.jpg"
+        images: process.env.PUBLIC_URL + "/images/chinning_dipping2.jpg"
     },
     { 
         displayName: "레그 프레스",
@@ -243,7 +243,7 @@ export const equipmentDetails = [
                 videoLink: "https://youtube.com/shorts/6k7fBUE3rec?si=wlGun9rigHq8Q4_p"
             }
         ],
-        images: "/images/leg-press.jpeg"
+        images: process.env.PUBLIC_URL + "/images/leg-press.jpeg"
     },
     { 
         displayName: "레그 익스텐션",
@@ -274,7 +274,7 @@ export const equipmentDetails = [
                 videoLink: "https://youtube.com/shorts/TKXkq1JiQ0o?si=ZCTG5DuyxwUmALpI"
             }
         ],
-        images: "/images/leg_extension.jpg"
+        images: process.env.PUBLIC_URL + "/images/leg_extension.jpg"
     },
     { 
         displayName: "이너 타이",
@@ -305,7 +305,7 @@ export const equipmentDetails = [
                 videoLink: "https://youtube.com/shorts/IIx2bCMPGDw?si=dXV1kARP5-BZuhbD"
             }
         ],
-        images: "/images/inner_thigh.jpg"
+        images: process.env.PUBLIC_URL + "/images/inner_thigh.jpg"
     },
     { 
         displayName: "아웃 타이",
@@ -336,7 +336,7 @@ export const equipmentDetails = [
                 videoLink: "https://youtube.com/shorts/Ry2vAFCzqVQ?si=h9VmrscI0HYfHbpy"
             }
         ],
-        images: "/images/out_thigh.jpg"
+        images: process.env.PUBLIC_URL + "/images/out_thigh.jpg"
     },
     { 
         displayName: "런닝머신",
@@ -367,7 +367,7 @@ export const equipmentDetails = [
                 videoLink: "https://youtube.com/shorts/Kk-IConBOf0?si=zx08KbGax8FROJjG"
             }
         ],
-        images: "/images/treadmill.jpeg"
+        images: process.env.PUBLIC_URL + "/images/treadmill.jpeg"
     },
     { 
         displayName: "스텝퍼",
@@ -398,7 +398,7 @@ export const equipmentDetails = [
                 videoLink: "https://youtube.com/shorts/9Wc2ad17YW4?si=N5LS4LDxTFYU9kvm"
             }
         ],
-        images: "/images/stepper.jpeg"
+        images: process.env.PUBLIC_URL + "/images/stepper.jpeg"
     },
     { 
         displayName: "일립티컬 머신",
@@ -429,7 +429,7 @@ export const equipmentDetails = [
                 videoLink: "https://youtu.be/C8YKyoUXBPo?si=i7MzbiNyjyoiMClR"
             }
         ],
-        images: "/images/elliptical_machine.jpg"
+        images: process.env.PUBLIC_URL + "/images/elliptical_machine.jpg"
     },
     { 
         displayName: "사이클",
@@ -460,6 +460,6 @@ export const equipmentDetails = [
                 videoLink: "https://youtube.com/shorts/lrDPXvd2xCw?si=tjjiAaQz5zhyVaY4"
             }
         ],
-        images: "/images/cycle.jpg"
+        images: process.env.PUBLIC_URL + "/images/cycle.jpg"
     }
 ];

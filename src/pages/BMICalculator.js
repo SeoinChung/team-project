@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { useSearchParams } from 'react-router-dom';
 
+
 function BMICalculator() {
     const [weight, setWeight] = useState("");
     const [height, setHeight] = useState("");
@@ -55,7 +56,7 @@ function BMICalculator() {
                 return;
             }
 
-            const response = await fetch(`http://223.194.154.149:5001/api/bmi`, {
+            const response = await fetch(`http://223.194.155.124:5001/api/bmi`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -82,7 +83,7 @@ function BMICalculator() {
 
     const updateWeightHistory = async () => {
         try {
-            const response = await fetch(`http://223.194.154.149:5001/api/bmi?userId=${actualUserId}`);
+            const response = await fetch(`http://223.194.155.124:5001/api/bmi?userId=${actualUserId}`);
             if (!response.ok) {
                 throw new Error('체중 데이터 가져오기 실패');
             }
@@ -111,7 +112,7 @@ function BMICalculator() {
 
             const deleteDate = formattedDate.toISOString().slice(0, 19).replace('T', ' ');
 
-            const response = await fetch(`http://223.194.154.149:5001/api/bmi`, {
+            const response = await fetch(`http://223.194.155.124:5001/api/bmi`, {
                 method: "DELETE",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({

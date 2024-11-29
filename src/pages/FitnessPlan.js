@@ -11,7 +11,6 @@ function FitnessPlan() {
     const [plans, setPlans] = useState({});
     const [newPlan, setNewPlan] = useState("");
     const [selectedDate, setSelectedDate] = useState(new Date());
-    const [noPlansMessage, setNoPlansMessage] = useState(false);
     const [recommendedExercises, setRecommendedExercises] = useState({
         상체: null,
         하체: null,
@@ -38,7 +37,7 @@ function FitnessPlan() {
 
     const fetchPlans = async () => {
         try {
-            const response = await fetch(`http://223.194.154.149:5001/api/plan?userId=${actualUserId}`);
+            const response = await fetch(`http://223.194.155.124:5001/api/plan?userId=${actualUserId}`);
             if (!response.ok) {
                 throw new Error(`Error: ${response.status} - ${response.statusText}`);
             }
@@ -70,7 +69,6 @@ function FitnessPlan() {
         fetchPlans();  // selectedDate가 변경될 때마다 계획을 다시 가져옴
     }, [selectedDate]);
 
-
     // 실제 FitnessPlan.js 수정 코드
     const handleAddPlan = () => {
         if (newPlan) {
@@ -78,7 +76,7 @@ function FitnessPlan() {
             kor.setHours(kor.getHours() + 9); // 한국 시간으로 변환
             const formattedDate = kor.toISOString().split('T')[0];
 
-            fetch("http://223.194.154.149:5001/api/plan", {
+            fetch(`http://223.194.155.124:5001/api/plan`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -117,7 +115,7 @@ function FitnessPlan() {
         const formattedDate = selectedDate.toLocaleDateString('ko-KR');
         const planToDelete = plans[formattedDate][index];
 
-        fetch("http://223.194.154.149:5001/api/plan", {
+        fetch(`http://223.194.155.124:5001/api/plan`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
@@ -130,16 +128,11 @@ function FitnessPlan() {
         .then((response) => {
             if (response.ok) {
                 console.log("운동 계획 삭제됨");
-                const updatedPlans = plans[formattedDate].filter((_, i) => i !== index);
                 setPlans((prevPlans) => {
-                    const updatedPlansByDate = {
-                        ...prevPlans,
-                        [formattedDate]: updatedPlans,
-                    };
-                    if (updatedPlans.length === 0) {
-                        setNoPlansMessage(true);
-                    } else {
-                        setNoPlansMessage(false);
+                    const updatedPlansByDate = { ...prevPlans };
+                    updatedPlansByDate[formattedDate] = updatedPlansByDate[formattedDate].filter((_, i) => i !== index);
+                    if (updatedPlansByDate[formattedDate] && updatedPlansByDate[formattedDate].length === 0) {
+                        delete updatedPlansByDate[formattedDate];
                     }
                     return updatedPlansByDate;
                 });
@@ -157,7 +150,7 @@ function FitnessPlan() {
         const planToUpdate = plans[formattedDate][index];
         const updatedCompleted = !planToUpdate.completed;
 
-        fetch("http://223.194.154.149:5001/api/plan", {
+        fetch(`http://223.194.155.124:5001/api/plan`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -232,11 +225,7 @@ function FitnessPlan() {
             </div>
 
             <h3>{selectedDate.toLocaleDateString()}의 운동 계획</h3>
-            {noPlansMessage ? (
-                <p>해당 날짜에 등록된 운동 계획이 없습니다.</p>
-            ) : (
-                renderPlansForSelectedDate()
-            )}
+            {renderPlansForSelectedDate()}
 
             <div className="notification-box">
                 <div className="icon">ℹ️</div>

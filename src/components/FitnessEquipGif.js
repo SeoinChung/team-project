@@ -3,21 +3,21 @@ import './FitnessEquipGif.css';
 
 function FitnessEquipGif({ equipmentName }) {
     const videoSrc = {
-        "back-extension": "/images/back-extension.mp4",
-        "cable-arm-pulldown": "/images/cable-arm-pulldown.mp4",
-        "chest-press": "/images/chest-press.mp4",
-        "chinning-dipping1": "/images/chinning-dipping1.mp4",
-        "chinning-dipping2": "/images/chinning_dipping2.mp4",
-        "lat-pull-down": "/images/lat-pull-down.mp4",
-        "leg-press": "/images/leg-press.mp4",
-        "reverse-hyper-extension": "/images/reverse-hyper-extension.mp4",
-        "stepper": "/images/stepper.mp4",
-        "treadmill": "/images/treadmill.mp4",
-        "elliptical-machine": "/images/elliptical_machine.mp4",
-        "cycle": "/images/cycle.mp4",
-        "inner-thigh": "/images/inner_thigh.mp4",
-        "out-thigh": "/images/out_thigh.mp4",
-        "leg-extension": "/images/leg_extension.mp4"
+        "back-extension": process.env.PUBLIC_URL + "/images/back-extension.mp4",
+        "cable-arm-pulldown": process.env.PUBLIC_URL + "/images/cable-arm-pulldown.mp4",
+        "chest-press": process.env.PUBLIC_URL + "/images/chest-press.mp4",
+        "chinning-dipping1": process.env.PUBLIC_URL + "/images/chinning-dipping1.mp4",
+        "chinning-dipping2": process.env.PUBLIC_URL + "/images/chinning_dipping2.mp4",
+        "lat-pull-down": process.env.PUBLIC_URL + "/images/lat-pull-down.mp4",
+        "leg-press": process.env.PUBLIC_URL + "/images/leg-press.mp4",
+        "reverse-hyper-extension": process.env.PUBLIC_URL + "/images/reverse-hyper-extension.mp4",
+        "stepper": process.env.PUBLIC_URL + "/images/stepper.mp4",
+        "treadmill": process.env.PUBLIC_URL + "/images/treadmill.mp4",
+        "elliptical-machine": process.env.PUBLIC_URL + "/images/elliptical_machine.mp4",
+        "cycle": process.env.PUBLIC_URL + "/images/cycle.mp4",
+        "inner-thigh": process.env.PUBLIC_URL + "/images/inner_thigh.mp4",
+        "out-thigh": process.env.PUBLIC_URL + "/images/out_thigh.mp4",
+        "leg-extension": process.env.PUBLIC_URL + "/images/leg_extension.mp4"
     };
 
     const selectedVideo = videoSrc[equipmentName];
