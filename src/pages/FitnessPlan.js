@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import './FitnessPlan.css';
+import './FitnessPlan.css';  // CSS 파일을 불러옴
 import { equipmentDetails } from './FitnessEquipData';
 import { useSearchParams } from 'react-router-dom';
 
@@ -35,7 +35,7 @@ function FitnessPlan() {
         setRecommendedExercises(randomExercises);
     }, [selectedDate]);
 
-    const fetchPlans = async () => {
+    const fetchPlans = useCallback(async () => {
         try {
             const response = await fetch(`http://223.194.155.124:5001/api/plan?userId=${actualUserId}`);
             if (!response.ok) {
@@ -54,22 +54,29 @@ function FitnessPlan() {
         } catch (error) {
             console.error("운동 계획을 가져오는 데 실패했습니다:", error.message);
         }
-    };    
+    }, [actualUserId]);
 
     useEffect(() => {
-        fetchPlans();  // 페이지 로드 시 운동 계획 가져오기
-
         const savedDate = localStorage.getItem("selectedDate");
         if (savedDate) {
-            setSelectedDate(new Date(savedDate));
+            const localDate = new Date(savedDate);
+            localDate.setHours(localDate.getHours() + 9); // UTC+9로 시간대 보정
+            setSelectedDate(localDate);
+        } else {
+            const today = new Date();
+            today.setHours(today.getHours() + 9); // UTC+9로 시간대 보정
+            setSelectedDate(today);
         }
     }, []);
 
     useEffect(() => {
-        fetchPlans();  // selectedDate가 변경될 때마다 계획을 다시 가져옴
-    }, [selectedDate]);
+        fetchPlans();  // 페이지 로드 시 운동 계획 가져오기
+    }, [fetchPlans]);
 
-    // 실제 FitnessPlan.js 수정 코드
+    useEffect(() => {
+        fetchPlans();  // selectedDate가 변경될 때마다 계획을 다시 가져옴
+    }, [fetchPlans, selectedDate]);
+
     const handleAddPlan = () => {
         if (newPlan) {
             const kor = new Date(selectedDate);
@@ -100,7 +107,6 @@ function FitnessPlan() {
                         localStorage.setItem("selectedDate", formattedDate);
                         setNewPlan(""); // 입력 필드 초기화
                         fetchPlans(); // 데이터 갱신
-                        console.log("넘기기 직전: " + actualUserId);
                     }
                 })
                 .catch((error) => {
@@ -190,7 +196,7 @@ function FitnessPlan() {
                             type="checkbox"
                             checked={plan.completed}
                             onChange={() => handleToggleComplete(index)}
-                            style={{ marginRight: "8px" }}
+                            className="plan-checkbox" // className 추가
                         />
                         <span>{plan.text}</span>
                         <button onClick={() => handleDeletePlan(index)} className="delete-button">삭제</button>
@@ -205,7 +211,7 @@ function FitnessPlan() {
     return (
         <div>
             <h2>운동 계획 관리</h2>
-            <h3>사용자: {actualUserId}</h3>  {/* 사용자 ID 확인차 표시 */}
+            <h3>사용자: {actualUserId}</h3>
             <input
                 type="text"
                 placeholder="운동 계획 입력"
@@ -221,10 +227,19 @@ function FitnessPlan() {
                     selected={selectedDate}
                     onChange={(date) => setSelectedDate(date)}
                     inline
+                    filterDate={(date) => {
+                        const currentYear = selectedDate.getFullYear();
+                        const currentMonth = selectedDate.getMonth();
+                        return (
+                            date.getFullYear() === currentYear &&
+                            date.getMonth() === currentMonth
+                        );
+                    }}
+                    dateFormat="dd/MM" 
                 />
             </div>
 
-            <h3>{selectedDate.toLocaleDateString()}의 운동 계획</h3>
+            <h3>{selectedDate.toLocaleDateString('ko-KR')}의 운동 계획</h3> {/* 연도 포함한 날짜로 복구 */}
             {renderPlansForSelectedDate()}
 
             <div className="notification-box">

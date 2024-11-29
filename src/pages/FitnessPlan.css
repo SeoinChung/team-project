@@ -1,26 +1,25 @@
+/* Importing font */
 @import url('https://hangeul.pstatic.net/hangeul_static/css/nanum-square-neo.css');
 
 body {
     font-family: 'NanumSquareNeo', sans-serif;
-    
 }
-
 
 /* 전체 달력 스타일 */
 .react-datepicker {
-    border: 2px solid black; /* 테두리 색상 */
+    border: 2px solid black;
     border-radius: 10px;
-    background-color: #f8f8f8; /* 배경색 */
+    background-color: #ffffff;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    font-family: 'Arial', sans-serif; /* 폰트 */
-    color: #4a4a4a;
-    width: auto; /* 자동 크기 조정 */
+    font-family: 'Arial', sans-serif;
+    color: #ffffff;
+    width: auto;
     padding: 10px;
 }
 
 /* 헤더 스타일 */
 .react-datepicker__header {
-    background-color: gray; /* 헤더 배경 */
+    background-color: rgb(255, 255, 255);
     border-bottom: 1px solid #e6e6e6;
     padding: 10px 0;
     color: #ffffff;
@@ -28,9 +27,15 @@ body {
     text-align: center;
 }
 
+.react-datepicker__current-month {
+    font-size: 24px;
+    font-weight: bold;
+    color: black;
+}
+
 /* 네비게이션 버튼 */
 .react-datepicker__navigation {
-    top: 15px; /* 위치 조정 */
+    top: 15px;
     border: none;
     background: none;
     font-size: 18px;
@@ -62,43 +67,35 @@ body {
     border-radius: 50%;
     transition: background-color 0.3s ease;
     cursor: pointer;
+    font-size: 18px !important;
+    font-weight: bold !important;
 }
 
-/* 일요일: 빨간색 */
 .react-datepicker__day-name:nth-child(1),
-.react-datepicker__day:nth-child(1) {
-    color: red; /* 빨간색 */
+.react-datepicker__day-name:nth-child(7) {
+    color: rgb(60, 60, 60);
 }
 
-/* 토요일: 파란색 */
-.react-datepicker__day-name:nth-child(7),
-.react-datepicker__day:nth-child(7) {
-    color: blue; /* 파란색 */
-}
-
-
-.react-datepicker__day-name {
+.react-datepicker__day-name:nth-child(2),
+.react-datepicker__day-name:nth-child(3),
+.react-datepicker__day-name:nth-child(4),
+.react-datepicker__day-name:nth-child(5),
+.react-datepicker__day-name:nth-child(6) {
     font-weight: bold;
-    color: white;
-}
-
-.react-datepicker__day {
-    background-color: #ffffff; /* 기본 배경 */
-    color: #4a4a4a; /* 기본 텍스트 색상 */
-    font-weight: normal;
+    color: black;
 }
 
 /* 오늘 날짜 */
 .react-datepicker__day--today {
     font-weight: bold;
-    border: 2px solid #45b0df;
-    color: #4e94d9;
+    border: 2px solid #000000;
+    color: #000000;
 }
 
 /* 선택된 날짜 */
 .react-datepicker__day--selected {
-    background-color: gray;
-    color: #ffffff;
+    background-color: #000000 !important;
+    color: #ffffff !important;
     font-weight: bold;
 }
 
@@ -108,11 +105,21 @@ body {
     color: #ffffff;
 }
 
+/* 토요일과 일요일 날짜 텍스트 색상 변경 */
+.react-datepicker__day--weekend {
+    color: #7d7d7d !important;
+}
+
+.react-datepicker__day--weekend.react-datepicker__day--selected {
+    color: #ffffff !important; 
+    background-color: #000000 !important;  
+}
+
 /* 운동 계획 입력 필드 스타일 */
 .input-plan {
-    width: 26%;
+    width: 30%;
     padding: 10px;
-    margin: 15px 10px 15px 0;
+    margin: 10px 10px 15px 0;
     border: 1px solid #ddd;
     border-radius: 5px;
     font-size: 18px;
@@ -123,16 +130,17 @@ body {
     width: 10%;
     aspect-ratio: 3 / 1; 
     padding: 4px;
-    background-color:black;
+    background-color: black;
     color: white;
     border: none;
     border-radius: 5px;
     font-size: 14px;
     cursor: pointer;
-    min-width: 45px; 
+    min-width: 60px; 
     min-height: 40px; 
 }
 
+/* Notification box */
 .notification-box {
     display: flex;
     align-items: flex-start;
@@ -141,17 +149,16 @@ body {
     border: 1px solid #e0e0e0;
     border-radius: 12px;
     padding: 16px;
-    margin: 20px auto; /* 화면 가운데 정렬 */
+    margin: 20px auto;
     font-size: 14px;
     color: #495057;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    max-width: 400px; /* 최대 박스 너비 지정 */
-    width: fit-content; /* 내용에 맞게 크기 조정 */
+    max-width: 400px;
+    width: fit-content;
 }
 
 .notification-box .icon {
     font-size: 18px;
-   
 }
 
 .notification-box h4 {
@@ -163,21 +170,27 @@ body {
 
 .notification-box ul {
     margin: 0;
-    padding-left: 20px; /* 불릿과 텍스트 간 간격 확보 */
-    list-style-type: disc; /* 디스크형 불릿 스타일 */
-    list-style-position: inside; /* 불릿을 안쪽으로 이동 */
+    padding-left: 20px;
+    list-style-type: disc;
+    list-style-position: inside;
 }
 
 .notification-box li {
-    margin: 8px 0; /* 항목 간 간격 균일화 */
-    line-height: 1.6; /* 줄 간격 조정 */
-    text-align: left; /* 텍스트 정렬 왼쪽 고정 */
+    margin: 8px 0;
+    line-height: 1.6;
+    text-align: left;
 }
 
 /* 페이지 제목 스타일 */
 h2 {
-    font-size: 26px;
+    font-size: 24px;
     font-weight: bold;
+    margin-top: 30px;
+}
+
+/* 사용자 정보 텍스트 스타일 */
+h3 {
+    font-size: 18px; /* 사용자 정보 텍스트 크기 */
 }
 
 /* 삭제 버튼 스타일 */
@@ -209,11 +222,11 @@ h2 {
 }
 
 .plan-item {
-    display: flex; /* Flexbox 활성화 */
-    align-items: center; /* 수직 가운데 정렬 */
-    justify-content: space-between; /* 양 끝으로 정렬 */
-    width: 100%; /* 부모 요소 너비에 맞춤 */
-    max-width: 400px; /* 최대 너비 제한 */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 400px;
     margin-bottom: 8px;
     padding: 8px;
     border: 1px solid #ddd;
@@ -222,8 +235,8 @@ h2 {
 }
 
 .plan-item span {
-    flex-grow: 1; /* 텍스트를 남은 공간 채우게 설정 */
-    text-align: left; /* 왼쪽 정렬 */
+    flex-grow: 1;
+    text-align: left;
 }
 
 .plan-item.completed {
@@ -231,3 +244,20 @@ h2 {
     color: #888;
 }
 
+.react-datepicker__day--outside-month {
+    visibility: hidden;
+}
+
+.react-datepicker__day-name:nth-child(2),
+.react-datepicker__day-name:nth-child(3),
+.react-datepicker__day-name:nth-child(4),
+.react-datepicker__day-name:nth-child(5),
+.react-datepicker__day-name:nth-child(6) {
+    font-weight: bold;
+    color: black;
+}
+
+.react-datepicker__day--weekend {
+    font-weight: normal;
+    color: rgb(255, 255, 255);
+}
