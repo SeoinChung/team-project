@@ -18,7 +18,7 @@ app.use(express.json());  // 이 부분이 없으면 body를 제대로 처리할
 // MySQL 데이터베이스 연결 설정
 // 환경 변수로 MySQL 연결 정보 설정
 const db = mysql.createConnection({
-    host: process.env.DB_HOST || "localhost",
+    host: process.env.DB_HOST || "223.194.154.149",
     user: process.env.DB_USER || "root",
     password: process.env.DB_PASSWORD || "seoin0713@",
     database: process.env.DB_NAME || "fitness_app",

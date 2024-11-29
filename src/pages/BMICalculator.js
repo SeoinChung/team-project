@@ -4,7 +4,7 @@ import { useSearchParams } from 'react-router-dom';
 
 const API_URL = process.env.NODE_ENV === 'production'
   ? process.env.REACT_APP_API_URL
-  : 'http://localhost:5001/api';
+  : 'http://223.194.154.149:5001/api';
 
 function BMICalculator() {
     const [weight, setWeight] = useState("");
