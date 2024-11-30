@@ -137,43 +137,42 @@ function BMICalculator() {
             {bmi && <p>당신의 BMI: {bmi}</p>}
 
             <div className="bmi-range-container">
-    <div
-        className={`bmi-range ${
-            bmi !== null && bmi < 18.5 ? "active" : ""
-        }`}
-    >
-        저체중
-        <br />
-        <span className="bmi-range-detail">(0 - 18.5)</span>
-    </div>
-    <div
-        className={`bmi-range ${
-            bmi !== null && bmi >= 18.5 && bmi < 23 ? "active" : ""
-        }`}
-    >
-        정상
-        <br />
-        <span className="bmi-range-detail">(18.5 - 23)</span>
-    </div>
-    <div
-        className={`bmi-range ${
-            bmi !== null && bmi >= 23 && bmi < 25 ? "active" : ""
-        }`}
-    >
-        과체중
-        <br />
-        <span className="bmi-range-detail">(23 - 25)</span>
-    </div>
-    <div
-        className={`bmi-range ${
-            bmi !== null && bmi >= 25 ? "active" : ""
-        }`}
-    >
-        비만
-        <br />
-        <span className="bmi-range-detail">(25 이상)</span>
-    </div>
-</div>
+                <div
+                    className={`bmi-range underweight ${bmi !== null && bmi < 18.5 ? "active" : ""}`}
+                >
+                    저체중
+                    <br />
+                    <span className="bmi-range-detail">(0 - 18.5)</span>
+                </div>
+                <div
+                    className={`bmi-range normal ${bmi !== null && bmi >= 18.5 && bmi < 23 ? "active" : ""}`}
+                >
+                    정상
+                    <br />
+                    <span className="bmi-range-detail">(18.5 - 23)</span>
+                </div>
+                <div
+                    className={`bmi-range overweight ${bmi !== null && bmi >= 23 && bmi < 25 ? "active" : ""}`}
+                >
+                    과체중
+                    <br />
+                    <span className="bmi-range-detail">(23 - 25)</span>
+                </div>
+                <div
+                    className={`bmi-range obese ${bmi !== null && bmi >= 25 ? "active" : ""}`}
+                >
+                    비만
+                    <br />
+                    <span className="bmi-range-detail">(25 이상)</span>
+                </div>
+            </div>
+
+            {/* 그래프와 체중 기록을 전환하는 버튼 */}
+            <div style={{ marginTop: "20px" }}>
+                <button onClick={() => setShowGraph(!showGraph)}>
+                    {showGraph ? "체중 기록 보기" : "체중 기록 그래프 보기"}
+                </button>
+            </div>
 
 
             {showGraph ? (

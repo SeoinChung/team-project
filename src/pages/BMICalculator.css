@@ -128,6 +128,27 @@
     border-radius: 4px;
 }
 
+.bmi-range.underweight {
+    background-color: #bbf0bb; /* 연한 녹색 (저체중) */
+}
+
+.bmi-range.normal {
+    background-color: #ADD8E6; /* 연한 파란색 (정상) */
+}
+
+.bmi-range.overweight {
+    background-color: #f0e297; /* 노란색 (과체중) */
+}
+
+.bmi-range.obese {
+    background-color: #f79b8b; /* 연한 빨간색 (비만) */
+}
+
+.bmi-range.active {
+    border: 2px solid #000; /* 활성화된 상태에 대한 강조 */
+}
+
+
 /* 반응형 그래프 컨테이너 */
 @media (max-width: 768px) {
     .graph-container {
