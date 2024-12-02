@@ -48,41 +48,52 @@
     position: relative;
     height: 20px;
     background: linear-gradient(to right,
-    #36d7b7 0%,         /* 저체중 시작 */
-    #36d7b7 18.5%,      /* 저체중 끝 */
-    #4dabf7 18.5%,      /* 정상 시작 */
-    #4dabf7 23%,        /* 정상 끝 */
-    #f7b24d 23%,        /* 과체중 시작 */
-    #f7b24d 25%,        /* 과체중 끝 */
-    #f28c8c 25%,        /* 비만 시작 */
-    #f28c8c 30%,        /* 비만 끝 */
-    #e60000 30%,        /* 고도비만 시작 */
-    #e60000 100%        /* 고도비만 끝 */
-  );  
-  }
-  
+      #36d7b7 0%,         /* 저체중 시작 */
+      #36d7b7 61.7%,      /* 저체중 끝 */
+      #4dabf7 61.7%,      /* 정상 시작 */
+      #4dabf7 76.7%,      /* 정상 끝 */
+      #f7b24d 76.7%,      /* 과체중 시작 */
+      #f7b24d 83.4%,      /* 과체중 끝 */
+      #f28c8c 83.4%,      /* 비만 시작 */
+      #f28c8c 100%        /* 비만 및 고도비만 끝 */
+    );  
+  }  
 
-.bmi-range {
-    background-color: #f0f0f0;
-    color: #333;
-    font-weight: bold;
-    padding: 10px 0;
-    flex-grow: 1;
-    text-align: center;
+  .bmi-range-labels {
     position: relative;
-}
-
-.bmi-range-labels {
     display: flex;
-    justify-content: space-between;
+    width: 100%;
     margin-top: 10px;
   }
   
-.bmi-range.active {
-    border: 3px solid black;
-    border-radius: 3px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-}
+  .label {
+    position: absolute;
+    top: 0;
+    transform: translateX(-50%);
+    font-size: 14px;
+  }
+  
+  /* 각 레이블을 해당 구간에 맞게 배치 */
+  .underweight {
+    left: 30.85%; /* 저체중 구간 중앙 (61.7 / 2) */
+  }
+  
+  .normal {
+    left: 69.2%; /* 정상 구간 중앙 (61.7 + 15 / 2) */
+  }
+  
+  .overweight {
+    left: 80.05%; /* 과체중 구간 중앙 (76.7 + 6.7 / 2) */
+  }
+  
+  .obese {
+    left: 91.7%; /* 비만 구간 중앙 (83.4 + 16.6 / 2) */
+  }
+  
+  .severely-obese {
+    left: 97.5%; /* 고도비만 구간 중앙 (전체 끝 쪽) */
+  }
+  
 .bmi-pointer {
     position: absolute;
     transform: translateX(-50%);
