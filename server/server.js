@@ -215,6 +215,7 @@ app.get("/api/bmi", (req, res) => {
 
 //추가 API
 // 체중 기록 추가 API 수정
+// 체중 기록 추가 API 수정
 app.post("/api/bmi", (req, res) => {
     const { date, weight, bmi, userId } = req.body;  // bmi를 추가하여 받도록 수정
     const actualUserId = userId;
@@ -226,9 +227,17 @@ app.post("/api/bmi", (req, res) => {
             return res.status(500).json({ error: "사용자 확인 또는 생성 실패" });
         }
 
+        // 날짜 형식 변환 (YYYY-MM-DD HH:MM:SS)
+        let formattedDate = new Date(date);
+        if (isNaN(formattedDate)) {
+            return res.status(400).json({ error: "유효하지 않은 날짜 형식입니다." });
+        }
+        formattedDate.setHours(formattedDate.getHours() + 9); // UTC 시간에서 한국 시간으로 변환
+        const mysqlDate = formattedDate.toISOString().slice(0, 19).replace('T', ' ');
+
         // 체중과 BMI를 함께 추가
         const query = "INSERT INTO fitness_weight (date, weight, bmi, user_id) VALUES (?, ?, ?, ?)";
-        db.query(query, [date, weight, bmi, actualUserId], (err, result) => {
+        db.query(query, [mysqlDate, weight, bmi, actualUserId], (err, result) => {
             if (err) {
                 console.error("체중 데이터 추가 실패:", err);
                 return res.status(500).json({ success: false, message: "체중 데이터 추가 실패" });
@@ -255,12 +264,16 @@ app.delete("/api/bmi", (req, res) => {
         }
 
         // 날짜 포맷팅 및 삭제 처리
-        const formattedDate = new Date(date);
-        const dateToDelete = formattedDate.toISOString().split('T')[0]; // 날짜만 추출 (YYYY-MM-DD 형식)
+        let formattedDate = new Date(date);
+        if (isNaN(formattedDate)) {
+            return res.status(400).json({ error: "유효하지 않은 날짜 형식입니다." });
+        }
+        formattedDate.setHours(formattedDate.getHours() + 9); // UTC 시간에서 한국 시간으로 변환
+        const mysqlDate = formattedDate.toISOString().slice(0, 19).replace('T', ' ');
 
         const deleteQuery = `DELETE FROM fitness_weight WHERE user_id = ? AND weight = ? AND DATE(date) = ?`;
-        
-        db.query(deleteQuery, [actualUserId, weight, dateToDelete], (err, result) => {
+
+        db.query(deleteQuery, [actualUserId, weight, mysqlDate.split(' ')[0]], (err, result) => {
             if (err) {
                 console.error("체중 데이터 삭제 실패:", err);
                 res.status(500).json({ error: "체중 데이터 삭제 실패" });

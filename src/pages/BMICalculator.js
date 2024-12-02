@@ -57,9 +57,9 @@ function BMICalculator() {
         const bmiValue = weight / (heightInMeters * heightInMeters);
         setBmi(parseFloat(bmiValue.toFixed(2)));
 
-        const today = new Date();
-        today.setHours(today.getHours() + 9);
-        const formattedDate = today.toISOString().slice(0, 19).replace('T', ' ');
+        const kor = new Date();
+        kor.setHours(kor.getHours() + 9);
+        const formattedDate = kor.toISOString().slice(0, 19).replace('T', ' '); // 'YYYY-MM-DD HH:MM:SS' 형식으로 변환  
 
         try {
             if (!actualUserId) {
@@ -90,28 +90,35 @@ function BMICalculator() {
 
     const handleDeleteWeight = async (record) => {
         const { date, weight } = record;
-
+    
+        // 날짜 형식을 MySQL DATETIME 형식에 맞게 변환 ('YYYY-MM-DD HH:MM:SS')
+        const kor = new Date(date);
+        kor.setHours(kor.getHours() + 9); // UTC를 한국 시간으로 변환
+        const formattedDate = kor.toISOString().slice(0, 19).replace('T', ' ');
+    
         try {
             const response = await fetch(`http://223.194.152.142:5001/api/bmi`, {
                 method: "DELETE",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    date,
+                    date: formattedDate, // MySQL DATETIME 형식에 맞는 날짜 사용
                     weight,
                     userId: actualUserId,
                 }),
             });
-
+    
             if (response.ok) {
                 const updatedHistory = weightHistory.filter(
                     (item) => item.date !== record.date
                 );
                 setWeightHistory(updatedHistory);
+            } else {
+                console.error("데이터 삭제 실패:", response.statusText);
             }
         } catch (error) {
-            console.error(error);
+            console.error("체중 데이터 삭제 중 오류 발생:", error);
         }
-    };
+    };    
 
     return (
         <div className="container">
@@ -197,14 +204,19 @@ function BMICalculator() {
                 </div>
             ) : (
                 <ul className="weight-history-container">
-                    {weightHistory.map((record) => (
-                        <li className="weight-history-item" key={record.date}>
-                            {record.date} - {record.weight}kg{" "}
-                            <button onClick={() => handleDeleteWeight(record)}>
-                                삭제
-                            </button>
-                        </li>
-                    ))}
+                    {weightHistory.map((record) => {
+                        const korDate = new Date(record.date);
+                        korDate.setHours(korDate.getHours());
+                        const formattedKorDate = korDate.toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' });
+                        return (
+                            <li className="weight-history-item" key={record.date}>
+                                {formattedKorDate} - {record.weight}kg{" "}
+                                <button onClick={() => handleDeleteWeight(record)}>
+                                    삭제
+                                </button>
+                            </li>
+                        );
+                    })}
                 </ul>
             )}
         </div>
