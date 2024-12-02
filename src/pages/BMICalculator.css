@@ -45,14 +45,22 @@
 
 /* BMI 상태 그래프 스타일 */
 .bmi-range-container {
-    display: flex;
-    width: 100%;
-    border-radius: 8px;
-    overflow: hidden;
-    border: 1px solid #ddd;
     position: relative;
-    margin-top: 20px;
-}
+    height: 20px;
+    background: linear-gradient(to right,
+    #36d7b7 0%,         /* 저체중 시작 */
+    #36d7b7 18.5%,      /* 저체중 끝 */
+    #4dabf7 18.5%,      /* 정상 시작 */
+    #4dabf7 23%,        /* 정상 끝 */
+    #f7b24d 23%,        /* 과체중 시작 */
+    #f7b24d 25%,        /* 과체중 끝 */
+    #f28c8c 25%,        /* 비만 시작 */
+    #f28c8c 30%,        /* 비만 끝 */
+    #e60000 30%,        /* 고도비만 시작 */
+    #e60000 100%        /* 고도비만 끝 */
+  );  
+  }
+  
 
 .bmi-range {
     background-color: #f0f0f0;
@@ -64,20 +72,35 @@
     position: relative;
 }
 
+.bmi-range-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+  
 .bmi-range.active {
     border: 3px solid black;
     border-radius: 3px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
-
-/* BMI 화살표 스타일 */
+.bmi-pointer {
+    position: absolute;
+    transform: translateX(-50%);
+    top: -10px;
+  }
+  
+  .pointer-icon {
+    font-size: 24px;
+  }
+  
+/* BMI 화살표 스타일 여기서부터 */
 .bmi-arrow {
     position: absolute;
-    top: -110px; /* 사용자 요구 사항 */
+    top: -110px;
     left: 50%;
     transform: translateX(-50%);
     font-weight: bold;
-    font-size: 150px; /* 사용자 요구 사항 */
+    font-size: 150px;
     color: red;
     z-index: 10;
     display: none;
@@ -86,7 +109,7 @@
 .bmi-arrow.active {
     display: block;
 }
-
+/* 여기까지 안 씀 */
 
 /* 그래프 컨테이너 스타일 */
 .graph-container {
@@ -129,26 +152,25 @@
 }
 
 .bmi-range.underweight {
-    background-color: #bbf0bb; /* 연한 녹색 (저체중) */
+    background-color: #c9dec9; /* 연한 녹색 (저체중) */
 }
 
 .bmi-range.normal {
-    background-color: #ADD8E6; /* 연한 파란색 (정상) */
+    background-color: #c9dee5; /* 연한 파란색 (정상) */
 }
 
 .bmi-range.overweight {
-    background-color: #f0e297; /* 노란색 (과체중) */
+    background-color: #ebe6ca; /* 노란색 (과체중) */
 }
 
 .bmi-range.obese {
-    background-color: #f79b8b; /* 연한 빨간색 (비만) */
+    background-color: #e9d2ce; /* 연한 빨간색 (비만) */
 }
 
 .bmi-range.active {
     border: 2px solid #000; /* 활성화된 상태에 대한 강조 */
 }
 
-/*체중기록*/
 .weight-history-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -194,13 +216,14 @@
     cursor: pointer;
 }
 
-/*체중기록 그래프*/
 .graph-container {
     width: 100%;
     height: 300px; /* 차트의 높이 설정 */
     margin: 20px 0; /* 위, 아래 여백 추가 */
+    background-color: #f9f9f9; /* 차트 배경색 */
     border-radius: 10px; /* 모서리 둥글게 */
-    
+    padding: 10px; /* 내부 여백 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
 }
 
 
