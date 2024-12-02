@@ -30,7 +30,7 @@ function BMICalculator() {
     // 체중 기록을 가져오는 함수
     const updateWeightHistory = useCallback(async () => {
         try {
-            const response = await fetch(`http://223.194.155.124:5001/api/bmi?userId=${actualUserId}`);
+            const response = await fetch(`http://223.194.152.142:5001/api/bmi?userId=${actualUserId}`);
             if (!response.ok) {
                 throw new Error('체중 데이터 가져오기 실패');
             }
@@ -66,7 +66,7 @@ function BMICalculator() {
                 return;
             }
 
-            const response = await fetch(`http://223.194.155.124:5001/api/bmi`, {
+            const response = await fetch(`http://223.194.152.142:5001/api/bmi`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -81,7 +81,6 @@ function BMICalculator() {
             if (data.success) {
                 updateWeightHistory();
                 setWeight("");
-                setBmi(null);
             }
         } catch (error) {
             console.error(error);
@@ -92,7 +91,7 @@ function BMICalculator() {
         const { date, weight } = record;
 
         try {
-            const response = await fetch(`http://223.194.155.124:5001/api/bmi`, {
+            const response = await fetch(`http://223.194.152.142:5001/api/bmi`, {
                 method: "DELETE",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -134,7 +133,7 @@ function BMICalculator() {
             <button onClick={calculateBMI} className="button">
                 계산
             </button>
-            {bmi && <p>당신의 BMI: {bmi}</p>}
+            {bmi !== null && <p>당신의 BMI: {bmi}</p>}
 
             <div className="bmi-range-container">
                 <div
@@ -173,7 +172,6 @@ function BMICalculator() {
                     {showGraph ? "체중 기록 보기" : "체중 기록 그래프 보기"}
                 </button>
             </div>
-
 
             {showGraph ? (
                 <div className="graph-container">
