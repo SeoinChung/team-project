@@ -178,16 +178,17 @@ function BMICalculator() {
                 <div className="graph-container">
                     <ResponsiveContainer>
                         <LineChart
-                            data={weightHistory}
-                            margin={{
-                                top: 5,
-                                right: 30,
-                                left: 20,
-                                bottom: 5,
-                            }}
+                            data={weightHistory.map((record) => {
+                                const korDate = new Date(record.date);
+                                korDate.setHours(korDate.getHours());
+                                return {
+                                    ...record,
+                                    date: korDate.toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })
+                                };
+                            })}
                         >
                             <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey="date" tick={false}/>
+                            <XAxis dataKey="date" tick={false} />
                             <YAxis />
                             <Tooltip contentStyle={{ backgroundColor: 'white' }} />
                             <Legend />
@@ -196,17 +197,20 @@ function BMICalculator() {
                     </ResponsiveContainer>
                 </div>
             ) : (
-                <div className="weight-history-container" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "10px" }}>
+                <div className="weight-history-container">
                     {weightHistory.map((record) => {
                         const korDate = new Date(record.date);
                         korDate.setHours(korDate.getHours());
                         const formattedKorDate = korDate.toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' });
+
                         return (
-                            <div className="weight-history-item" key={record.date} style={{ border: "1px solid #ddd", padding: "5px", borderRadius: "8px", backgroundColor: "#333", color: "white", textAlign: "center" }}>
+                            <div className="weight-history-item" key={record.date}>
                                 <p>{formattedKorDate}</p>
-                                <p style={{ fontSize: "24px", fontWeight: "bold" }}>{record.weight} <span style={{ fontSize: "16px", color: "#4dabf7" }}>kg</span></p>
-                                <p style={{ fontSize: "20px", color: "#f28c8c" }}>BMI: {record.bmi}</p>
-                                <button onClick={() => handleDeleteWeight(record)} style={{ marginTop: "10px", backgroundColor: "#ff4d4d", color: "white", border: "none", padding: "5px 10px", borderRadius: "5px", cursor: "pointer" }}>삭제</button>
+                                <p className="weight-value">
+                                    {record.weight} <span className="weight-unit">kg</span>
+                                </p>
+                                <p className="bmi-value">BMI: {record.bmi}</p>
+                                <button onClick={() => handleDeleteWeight(record)}>삭제</button>
                             </div>
                         );
                     })}
