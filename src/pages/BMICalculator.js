@@ -57,9 +57,9 @@ function BMICalculator() {
         const bmiValue = weight / (heightInMeters * heightInMeters);
         setBmi(parseFloat(bmiValue.toFixed(2)));
 
-        const kor = new Date();
-        kor.setHours(kor.getHours() + 9);
-        const formattedDate = kor.toISOString().slice(0, 19).replace('T', ' '); // 'YYYY-MM-DD HH:MM:SS' 형식으로 변환  
+        const today = new Date();
+        today.setHours(today.getHours() + 9);
+        const formattedDate = today.toISOString().slice(0, 19).replace('T', ' ');
 
         try {
             if (!actualUserId) {
@@ -90,35 +90,28 @@ function BMICalculator() {
 
     const handleDeleteWeight = async (record) => {
         const { date, weight } = record;
-    
-        // 날짜 형식을 MySQL DATETIME 형식에 맞게 변환 ('YYYY-MM-DD HH:MM:SS')
-        const kor = new Date(date);
-        kor.setHours(kor.getHours() + 9); // UTC를 한국 시간으로 변환
-        const formattedDate = kor.toISOString().slice(0, 19).replace('T', ' ');
-    
+
         try {
             const response = await fetch(`http://223.194.152.142:5001/api/bmi`, {
                 method: "DELETE",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    date: formattedDate, // MySQL DATETIME 형식에 맞는 날짜 사용
+                    date,
                     weight,
                     userId: actualUserId,
                 }),
             });
-    
+
             if (response.ok) {
                 const updatedHistory = weightHistory.filter(
                     (item) => item.date !== record.date
                 );
                 setWeightHistory(updatedHistory);
-            } else {
-                console.error("데이터 삭제 실패:", response.statusText);
             }
         } catch (error) {
-            console.error("체중 데이터 삭제 중 오류 발생:", error);
+            console.error(error);
         }
-    };    
+    };
 
     return (
         <div className="container">
@@ -194,7 +187,7 @@ function BMICalculator() {
                             }}
                         >
                             <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey="date" />
+                            <XAxis dataKey="date" tick={false}/>
                             <YAxis />
                             <Tooltip contentStyle={{ backgroundColor: 'white' }} />
                             <Legend />
@@ -203,21 +196,21 @@ function BMICalculator() {
                     </ResponsiveContainer>
                 </div>
             ) : (
-                <ul className="weight-history-container">
+                <div className="weight-history-container" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "10px" }}>
                     {weightHistory.map((record) => {
                         const korDate = new Date(record.date);
                         korDate.setHours(korDate.getHours());
                         const formattedKorDate = korDate.toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' });
                         return (
-                            <li className="weight-history-item" key={record.date}>
-                                {formattedKorDate} - {record.weight}kg{" "}
-                                <button onClick={() => handleDeleteWeight(record)}>
-                                    삭제
-                                </button>
-                            </li>
+                            <div className="weight-history-item" key={record.date} style={{ border: "1px solid #ddd", padding: "5px", borderRadius: "8px", backgroundColor: "#333", color: "white", textAlign: "center" }}>
+                                <p>{formattedKorDate}</p>
+                                <p style={{ fontSize: "24px", fontWeight: "bold" }}>{record.weight} <span style={{ fontSize: "16px", color: "#4dabf7" }}>kg</span></p>
+                                <p style={{ fontSize: "20px", color: "#f28c8c" }}>BMI: {record.bmi}</p>
+                                <button onClick={() => handleDeleteWeight(record)} style={{ marginTop: "10px", backgroundColor: "#ff4d4d", color: "white", border: "none", padding: "5px 10px", borderRadius: "5px", cursor: "pointer" }}>삭제</button>
+                            </div>
                         );
                     })}
-                </ul>
+                </div>
             )}
         </div>
     );
