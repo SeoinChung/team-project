@@ -19,10 +19,24 @@ function BMICalculator() {
         console.log('URL에서 받아온 userId 값:', userId);
     }, [userId]);
 
+<<<<<<< HEAD
     useEffect(() => {
         if (actualUserId) {
             console.log("userId가 actualUserId에 잘 저장됨.");
             updateWeightHistory();  // 체중 기록을 업데이트
+=======
+    // 체중 기록을 가져오는 함수
+    const updateWeightHistory = useCallback(async () => {
+        try {
+            const response = await fetch(`http://223.194.152.142:5001/api/bmi?userId=${actualUserId}`);
+            if (!response.ok) {
+                throw new Error('체중 데이터 가져오기 실패');
+            }
+            const data = await response.json();
+            setWeightHistory(data);
+        } catch (error) {
+            console.error("체중 데이터 가져오기 실패:", error);
+>>>>>>> 615c75f88cc96021130947b353af12723ddcacd4
         }
     }, [actualUserId]);
 
@@ -70,10 +84,14 @@ function BMICalculator() {
             if (data.success) {
                 console.log("체중 데이터 추가 성공!");
                 updateWeightHistory();
+<<<<<<< HEAD
                 setWeight("");  // 입력값 초기화
                 setBmi(null);    // BMI 상태 초기화
             } else {
                 console.error("체중 데이터 추가 실패:", data.message);
+=======
+                setWeight("");
+>>>>>>> 615c75f88cc96021130947b353af12723ddcacd4
             }
         } catch (error) {
             console.error("체중 데이터 추가 중 오류 발생:", error);
@@ -105,11 +123,14 @@ return {
     const handleDeleteWeight = async (record) => {
         const { date, weight } = record;
         try {
+<<<<<<< HEAD
             const formattedDate = new Date(date);
             formattedDate.setHours(formattedDate.getHours());  // 한국 시간으로 변환
 
             const deleteDate = formattedDate.toISOString().slice(0, 19).replace('T', ' ');
 
+=======
+>>>>>>> 615c75f88cc96021130947b353af12723ddcacd4
             const response = await fetch(`http://223.194.152.142:5001/api/bmi`, {
                 method: "DELETE",
                 headers: { "Content-Type": "application/json" },
@@ -208,8 +229,15 @@ return {
                 onChange={(e) => setHeight(e.target.value)}
                 style={{ marginRight: "10px" }}
             />
+<<<<<<< HEAD
             <button onClick={() => { console.log("Button clicked!"); calculateBMI(); }}>계산</button>
             {bmi && <p>당신의 BMI: {bmi}</p>}
+=======
+            <button onClick={calculateBMI} className="button">
+                계산
+            </button>
+            {bmi !== null && <p>당신의 BMI: {bmi}</p>}
+>>>>>>> 615c75f88cc96021130947b353af12723ddcacd4
 
             {/* BMI 상태 그래프 복원 */}
             <div style={{ marginTop: "20px" }}>
@@ -250,7 +278,10 @@ return {
                 </button>
             </div>
 
+<<<<<<< HEAD
             {/* 조건에 따라 그래프 또는 체중 기록 표시 */}
+=======
+>>>>>>> 615c75f88cc96021130947b353af12723ddcacd4
             {showGraph ? (
                 <div style={{ width: "100%", height: "300px", marginTop: "30px" }}>
                     <ResponsiveContainer width="100%" height="100%">
