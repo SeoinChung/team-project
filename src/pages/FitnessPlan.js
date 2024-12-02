@@ -227,14 +227,7 @@ function FitnessPlan() {
                     selected={selectedDate}
                     onChange={(date) => setSelectedDate(date)}
                     inline
-                    filterDate={(date) => {
-                        const currentYear = selectedDate.getFullYear();
-                        const currentMonth = selectedDate.getMonth();
-                        return (
-                            date.getFullYear() === currentYear &&
-                            date.getMonth() === currentMonth
-                        );
-                    }}
+                    
                     dateFormat="dd/MM" 
                 />
             </div>

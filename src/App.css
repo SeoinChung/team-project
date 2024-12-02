@@ -39,10 +39,10 @@
   display: inline-block;
   background-color: black; /* 버튼 배경색 */
   color: white; /* 글자 색 */
-  padding: 10px 20px; /* 버튼 내부 여백 */
+  padding: 10px 17px; /* 버튼 내부 여백 */
   text-decoration: none; /* 링크 밑줄 제거 */
   border-radius: 5px; /* 둥근 모서리 */
-  font-size: 18px; /* 글자 크기 */
+  font-size: 15px; /* 글자 크기 */
   transition: background-color 0.3s; /* 호버 시 색상 전환 */
 }
 
