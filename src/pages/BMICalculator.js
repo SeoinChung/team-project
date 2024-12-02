@@ -76,6 +76,7 @@ function BMICalculator() {
                     date: formattedDate,
                     weight: weight,
                     userId: actualUserId,
+                    bmi: bmiValue.toFixed(2)
                 }),
             });
 

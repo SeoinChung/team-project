@@ -202,7 +202,7 @@ app.get("/api/bmi", (req, res) => {
             return res.status(500).json({ error: "사용자 확인 또는 생성 실패" });
         }
 
-        const query = "SELECT * FROM weight_records WHERE user_id = ?";
+        const query = "SELECT * FROM fitness_weight WHERE user_id = ?";
         db.query(query, [actualUserId], (err, results) => {
             if (err) {
                 console.error("체중 데이터 조회 실패:", err);
@@ -214,9 +214,10 @@ app.get("/api/bmi", (req, res) => {
 });
 
 //추가 API
+// 체중 기록 추가 API 수정
 app.post("/api/bmi", (req, res) => {
-    const { date, weight, userId } = req.body;  // userId도 받도록 수정
-    const actualUserId = userId; // userId가 없으면 default_name 사용
+    const { date, weight, bmi, userId } = req.body;  // bmi를 추가하여 받도록 수정
+    const actualUserId = userId;
 
     // 사용자 존재 확인 후 체중 기록 추가
     ensureUserExists(actualUserId, (err) => {
@@ -225,8 +226,9 @@ app.post("/api/bmi", (req, res) => {
             return res.status(500).json({ error: "사용자 확인 또는 생성 실패" });
         }
 
-        const query = "INSERT INTO weight_records (date, weight, user_id) VALUES (?, ?, ?)";
-        db.query(query, [date, weight, actualUserId], (err, result) => {
+        // 체중과 BMI를 함께 추가
+        const query = "INSERT INTO fitness_weight (date, weight, bmi, user_id) VALUES (?, ?, ?, ?)";
+        db.query(query, [date, weight, bmi, actualUserId], (err, result) => {
             if (err) {
                 console.error("체중 데이터 추가 실패:", err);
                 return res.status(500).json({ success: false, message: "체중 데이터 추가 실패" });
@@ -256,7 +258,7 @@ app.delete("/api/bmi", (req, res) => {
         const formattedDate = new Date(date);
         const dateToDelete = formattedDate.toISOString().split('T')[0]; // 날짜만 추출 (YYYY-MM-DD 형식)
 
-        const deleteQuery = `DELETE FROM weight_records WHERE user_id = ? AND weight = ? AND DATE(date) = ?`;
+        const deleteQuery = `DELETE FROM fitness_weight WHERE user_id = ? AND weight = ? AND DATE(date) = ?`;
         
         db.query(deleteQuery, [actualUserId, weight, dateToDelete], (err, result) => {
             if (err) {
