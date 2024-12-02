@@ -161,6 +161,7 @@
     background-color: #333;
     color: white;
     text-align: center;
+    font-size: 14px;
 }
 
 .weight-history-item p {
@@ -178,7 +179,7 @@
 }
 
 .weight-history-item .bmi-value {
-    font-size: 20px;
+    font-size: 15px;
     color: #f28c8c;
 }
 
