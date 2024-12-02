@@ -115,18 +115,18 @@ function BMICalculator() {
 
     function getPointerPosition(bmi) {
         if (bmi <= 18.5) {
-          return (bmi / 18.5) * 61.7; // 저체중 구간 (0 - 18.5) -> 0% - 61.7%
+          return (bmi / 18.5) * 25; // 저체중 구간 (0 - 18.5) -> 0% - 25%
         } else if (bmi <= 23) {
-          return 61.7 + ((bmi - 18.5) / (23 - 18.5)) * 15; // 정상 구간 (18.5 - 23) -> 61.7% - 76.7%
+          return 25 + ((bmi - 18.5) / (23 - 18.5)) * 25; // 정상 구간 (18.5 - 23) -> 25% - 50%
         } else if (bmi <= 25) {
-          return 76.7 + ((bmi - 23) / (25 - 23)) * 6.7; // 과체중 구간 (23 - 25) -> 76.7% - 83.4%
+          return 50 + ((bmi - 23) / (25 - 23)) * 25; // 과체중 구간 (23 - 25) -> 50% - 75%
         } else if (bmi <= 30) {
-          return 83.4 + ((bmi - 25) / (30 - 25)) * 16.6; // 비만 구간 (25 - 30) -> 83.4% - 100%
+          return 75 + ((bmi - 25) / (30 - 25)) * 25; // 비만 구간 (25 - 30) -> 75% - 100%
         } else {
-          return 100; // 고도비만 구간은 항상 100% (30 이상)
+          return 100; // 비만 이상은 끝까지 (30 이상)
         }
-      }         
-
+      }      
+      
     return (
         <div className="container">
             <h2 className="title">BMI 계산기</h2>
@@ -153,8 +153,10 @@ function BMICalculator() {
             <div className="bmi-range-container">
                 <div className="bmi-range-bar">
                     {bmi !== null && (
-                        <div className="bmi-pointer" style={{
-                            left: `${Math.min(getPointerPosition(bmi), 100)}%`,
+                        <div
+                            className="bmi-pointer"
+                            style={{
+                                left: `${Math.min(getPointerPosition(bmi), 100)}%`,
                             }}
                         >
                             <span role="img" aria-label="pointer" style={{ fontSize: '24px' }}>📍</span>
@@ -166,7 +168,7 @@ function BMICalculator() {
                     <span className="label normal">정상</span>
                     <span className="label overweight">과체중</span>
                     <span className="label obese">비만</span>
-                    </div>
+                </div>
             </div>
 
             {/* 그래프와 체중 기록을 전환하는 버튼 */}
