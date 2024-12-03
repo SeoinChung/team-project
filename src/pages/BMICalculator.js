@@ -20,6 +20,7 @@ function BMICalculator() {
     const [searchParams] = useSearchParams();
     const [actualUserId, setActualUserId] = useState(null);
     const [showGraph, setShowGraph] = useState(true);
+    const [showHistory, setShowHistory] = useState(false);
 
     const userId = searchParams.get('userId') || 'default_name';
 
@@ -115,18 +116,18 @@ function BMICalculator() {
 
     function getPointerPosition(bmi) {
         if (bmi <= 18.5) {
-          return (bmi / 18.5) * 25; // 저체중 구간 (0 - 18.5) -> 0% - 25%
+            return (bmi / 18.5) * 25; // 저체중 구간 (0 - 18.5) -> 0% - 25%
         } else if (bmi <= 23) {
-          return 25 + ((bmi - 18.5) / (23 - 18.5)) * 25; // 정상 구간 (18.5 - 23) -> 25% - 50%
+            return 25 + ((bmi - 18.5) / (23 - 18.5)) * 25; // 정상 구간 (18.5 - 23) -> 25% - 50%
         } else if (bmi <= 25) {
-          return 50 + ((bmi - 23) / (25 - 23)) * 25; // 과체중 구간 (23 - 25) -> 50% - 75%
+            return 50 + ((bmi - 23) / (25 - 23)) * 25; // 과체중 구간 (23 - 25) -> 50% - 75%
         } else if (bmi <= 30) {
-          return 75 + ((bmi - 25) / (30 - 25)) * 25; // 비만 구간 (25 - 30) -> 75% - 100%
+            return 75 + ((bmi - 25) / (30 - 25)) * 25; // 비만 구간 (25 - 30) -> 75% - 100%
         } else {
-          return 100; // 비만 이상은 끝까지 (30 이상)
+            return 100; // 비만 이상은 끝까지 (30 이상)
         }
-      }      
-      
+    }
+
     return (
         <div className="container">
             <h2 className="title">BMI 계산기</h2>
@@ -172,13 +173,29 @@ function BMICalculator() {
             </div>
 
             {/* 그래프와 체중 기록을 전환하는 버튼 */}
-            <div style={{ marginTop: "20px" }}>
-                <button onClick={() => setShowGraph(!showGraph)}>
-                    {showGraph ? "체중 기록 보기" : "체중 기록 그래프 보기"}
+            <div className="button-container" style={{ marginTop: "20px" }}>
+                <button
+                    onClick={() => {
+                        setShowGraph(true);
+                        setShowHistory(false);
+                    }}
+                    className={`graph-toggle-button ${showGraph && !showHistory ? "selected" : ""}`}
+                >
+                    <img src="/images/graph.jpg" alt="체중 기록 그래프 보기" />
+                </button>
+                <button
+                    onClick={() => {
+                        setShowHistory(true);
+                        setShowGraph(false);
+                    }}
+                    className={`graph-toggle-button ${showHistory && !showGraph ? "selected" : ""}`}
+                >
+                    <img src="/images/weight.jpg" alt="체중 기록 목록 보기" />
                 </button>
             </div>
 
-            {showGraph ? (
+
+            {showGraph && (
                 <div className="graph-container">
                     <ResponsiveContainer>
                         <LineChart
@@ -193,14 +210,16 @@ function BMICalculator() {
                         >
                             <CartesianGrid strokeDasharray="3 3" />
                             <XAxis dataKey="date" tick={false} />
-                            <YAxis />
+                            <YAxis domain={[(dataMin) => Math.floor(dataMin - 5), (dataMax) => Math.ceil(dataMax + 5)]} /> {/* Y축 범위를 설정 */}
                             <Tooltip contentStyle={{ backgroundColor: 'white' }} />
                             <Legend />
                             <Line type="monotone" dataKey="weight" stroke="#007BFF" />
                         </LineChart>
                     </ResponsiveContainer>
                 </div>
-            ) : (
+            )}
+
+            {showHistory && (
                 <div className="weight-history-container">
                     {weightHistory.map((record) => {
                         const korDate = new Date(record.date);

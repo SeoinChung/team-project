@@ -234,6 +234,31 @@
     border-radius: 10px; /* 모서리 둥글게 */
 }
 
+.button-container {
+    display: flex;
+    justify-content: flex-end; /* 버튼들을 오른쪽으로 정렬 */
+    align-items: center; /* 버튼들을 수직 중앙 정렬 */
+    
+}
+
+.graph-toggle-button {
+    background-color: transparent; /* 배경색 투명하게 설정 */
+    border: 3px solid;
+    border-color: #bebebe;
+    color: black; /* 텍스트 색상 설정 */
+    cursor: pointer; /* 포인터 커서로 변경 */
+    border-radius: 10px; /* 테두리를 둥글게 설정 (10px 정도) */
+    margin-right: 5px; /* 버튼 사이의 간격 추가 */
+}
+
+.graph-toggle-button img {
+    width: 20px; /* 이미지 너비 설정 */
+    height: 25px; /* 이미지 높이 설정 */
+}
+
+.graph-toggle-button.selected {
+    border-color: black;
+}
 
 /* 반응형 그래프 컨테이너 */
 @media (max-width: 768px) {
