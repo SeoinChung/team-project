@@ -22,11 +22,7 @@ function App() {
         <Router>
             <div style={{ textAlign: 'center' }}>
                 <Header />
-                <nav className="nav-container">
-                    <Link to="/info" className="nav-button2">운동기구 목록</Link>
-                    <Link to={`/plan?userId=${userId}`} className="nav-button2">운동 계획 일정</Link>
-                    <Link to={`/bmi?userId=${userId}`} className="nav-button2">BMI 계산기</Link>
-                </nav>
+
                 <Routes>
                     {/* 운동기구 목록 */}
                     <Route path="/info" element={<FitnessEquipInfo />} />
