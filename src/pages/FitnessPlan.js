@@ -211,7 +211,7 @@ function FitnessPlan() {
     return (
         <div>
             <h2>운동 계획 관리</h2>
-            <h3>사용자: {actualUserId}</h3>
+            
             <input
                 type="text"
                 placeholder="운동 계획 입력"
