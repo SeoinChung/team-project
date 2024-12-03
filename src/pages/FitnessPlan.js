@@ -37,7 +37,7 @@ function FitnessPlan() {
 
     const fetchPlans = useCallback(async () => {
         try {
-            const response = await fetch(`http://223.194.155.180:5001/api/plan?userId=${actualUserId}`);
+            const response = await fetch(`http://59.5.1.224:5001/api/plan?userId=${actualUserId}`);
             if (!response.ok) {
                 throw new Error(`Error: ${response.status} - ${response.statusText}`);
             }
@@ -83,7 +83,7 @@ function FitnessPlan() {
             kor.setHours(kor.getHours() + 9); // 한국 시간으로 변환
             const formattedDate = kor.toISOString().split('T')[0];
 
-            fetch(`http://223.194.155.180:5001/api/plan`, {
+            fetch(`http://59.5.1.224:5001/api/plan`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -121,7 +121,7 @@ function FitnessPlan() {
         const formattedDate = selectedDate.toLocaleDateString('ko-KR');
         const planToDelete = plans[formattedDate][index];
 
-        fetch(`http://223.194.155.180:5001/api/plan`, {
+        fetch(`http://59.5.1.224:5001/api/plan`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
@@ -156,7 +156,7 @@ function FitnessPlan() {
         const planToUpdate = plans[formattedDate][index];
         const updatedCompleted = !planToUpdate.completed;
 
-        fetch(`http://223.194.155.180:5001/api/plan`, {
+        fetch(`http://59.5.1.224:5001/api/plan`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",

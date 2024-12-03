@@ -31,7 +31,7 @@ function BMICalculator() {
     // 체중 기록을 가져오는 함수
     const updateWeightHistory = useCallback(async () => {
         try {
-            const response = await fetch(`http://223.194.155.180:5001/api/bmi?userId=${actualUserId}`);
+            const response = await fetch(`http://59.5.1.224:5001/api/bmi?userId=${actualUserId}`);
             if (!response.ok) {
                 throw new Error('체중 데이터 가져오기 실패');
             }
@@ -67,7 +67,7 @@ function BMICalculator() {
                 return;
             }
 
-            const response = await fetch(`http://223.194.155.180:5001/api/bmi`, {
+            const response = await fetch(`http://59.5.1.224:5001/api/bmi`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -93,7 +93,7 @@ function BMICalculator() {
         const { date, weight } = record;
 
         try {
-            const response = await fetch(`http://223.194.155.180:5001/api/bmi`, {
+            const response = await fetch(`http://59.5.1.224:5001/api/bmi`, {
                 method: "DELETE",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
